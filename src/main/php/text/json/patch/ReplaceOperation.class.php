@@ -23,25 +23,11 @@ class ReplaceOperation extends Operation {
   }
 
   public function apply(&$target) {
-    $ptr= &$target;
-    foreach ($this->elements() as $element) {
-      if (isset($ptr[$element])) {
-        $ptr= &$ptr[$element];
-      } else {
-        return self::FAILURE;
-      }
-    }
-
-    if ($ptr === $this->value) {
-      return self::UNCHANGED;
-    } else {
-      $ptr= $this->value;
-      return self::SUCCESS;
-    }
+    return $this->pointer($target, $this->path)->modify($this->value);
   }
 
   /** @return string */
   public function toString() {
-    return nameof($this).'('.$this->path.' => '.Objects::stringOf($this->value).')';
+    return nameof($this).'('.$this->path().' => '.Objects::stringOf($this->value).')';
   }
 }

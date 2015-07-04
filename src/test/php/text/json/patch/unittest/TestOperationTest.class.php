@@ -1,7 +1,6 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\TestOperation;
-use text\json\patch\Operation;
 use lang\IllegalArgumentException;
 
 class TestOperationTest extends OperationTest {
@@ -26,7 +25,7 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation(['op' => 'test', 'path' => '/value', 'value' => self::ORIGINAL]);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertEquals(Operation::SUCCESS, $operation->apply($value));
+    $this->assertTrue($operation->apply($value));
   }
 
   #[@test]
@@ -34,6 +33,14 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation(['op' => 'replace', 'path' => '/does-not-exist', 'value' => null]);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertEquals(Operation::FAILURE, $operation->apply($value));
+    $this->assertFalse($operation->apply($value));
+  }
+
+  #[@test]
+  public function comparing_strings_and_numbers() {
+    $operation= new TestOperation(['op' => 'replace', 'path' => '/value', 'value' => '10']);
+
+    $value= ['value' => 10];
+    $this->assertFalse($operation->apply($value));
   }
 }

@@ -11,11 +11,7 @@ use lang\IllegalArgumentException;
  * @see   xp://text.json.Operations
  */
 abstract class Operation extends \lang\Object {
-  const SUCCESS = 1;
-  const FAILURE = 0;
-  const UNCHANGED = -1;
-
-  private $path;
+  protected $path;
 
   /**
    * Creates a new operation
@@ -25,10 +21,24 @@ abstract class Operation extends \lang\Object {
    */
   public function __construct($operation) {
     $this->requires($operation, 'op');
-    $this->path= $this->requires($operation, 'path');
-    if ('/' !== $operation['path']{0}) {
+    $this->path= $this->parse($this->requires($operation, 'path'));
+  }
+
+  /** @return string */
+  public function path() { return '/'.implode('/', $this->path); }
+
+  /**
+   * Parses a path
+   *
+   * @param  string $path
+   * @return string[]
+   * @throws lang.IllegalArgumentException If the path does not start with "/"
+   */
+  protected function parse($path) {
+    if ('/' !== $path{0}) {
       throw new IllegalArgumentException('Malformed path, must start with "/"');
     }
+    return explode('/', substr($path, 1));
   }
 
   /**
@@ -46,11 +56,20 @@ abstract class Operation extends \lang\Object {
     return $operation[$member];
   }
 
-  /** @return string */
-  public function path() { return $this->path; }
-
-  /** @return string[] */
-  public function elements() { return explode('/', substr($this->path, 1)); }
+  /**
+   * Returns a pointer
+   *
+   * @param  var $value
+   * @param  string[] $path
+   * @return text.json.patch.Pointer
+   */
+  protected function pointer(&$value, $path) {
+    $pointer= new Pointer($value);
+    foreach ($path as $element) {
+      $pointer= $pointer->to($element);
+    }
+    return $pointer;
+  }
 
   /**
    * Apply this operation to a given target and return whether the operation was successful.

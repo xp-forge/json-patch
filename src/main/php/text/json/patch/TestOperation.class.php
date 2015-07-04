@@ -22,20 +22,12 @@ class TestOperation extends Operation {
   }
 
   public function apply(&$target) {
-    $ptr= &$target;
-    foreach ($this->elements() as $element) {
-      if (isset($ptr[$element])) {
-        $ptr= &$ptr[$element];
-      } else {
-        return self::FAILURE;
-      }
-    }
-
-    return Objects::equal($ptr, $this->value) ? self::SUCCESS : self::FAILURE;
+    $ptr= $this->pointer($target, $this->path);
+    return $ptr->resolves() && Objects::equal($ptr->value(), $this->value);
   }
 
   /** @return string */
   public function toString() {
-    return nameof($this).'('.$this->path.' == '.Objects::stringOf($this->value).')';
+    return nameof($this).'('.$this->path().' == '.Objects::stringOf($this->value).')';
   }
 }

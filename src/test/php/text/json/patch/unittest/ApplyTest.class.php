@@ -45,7 +45,7 @@ class ApplyTest extends \unittest\TestCase {
     $changes= new Changes(['op' => 'test', 'path' => '/value', 'value' => self::ORIGINAL]);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertEquals(['/value' => Operation::SUCCESS], $changes->apply($value));
+    $this->assertEquals(['/value' => true], $changes->apply($value));
   }
 
   #[@test]
@@ -53,6 +53,6 @@ class ApplyTest extends \unittest\TestCase {
     $changes= new Changes(['op' => 'test', 'path' => '/non-existant', 'value' => null]);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertEquals(['/non-existant' => Operation::FAILURE], $changes->apply($value));
+    $this->assertEquals(['/non-existant' => false], $changes->apply($value));
   }
 }
