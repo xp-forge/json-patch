@@ -35,10 +35,13 @@ abstract class Operation extends \lang\Object {
    * @throws lang.IllegalArgumentException If the path does not start with "/"
    */
   protected function parse($path) {
-    if ('/' !== $path{0}) {
-      throw new IllegalArgumentException('Malformed path, must start with "/"');
+    if ('' === $path) {
+      return [];
+    } else if (1 === strspn($path, '/')) {
+      return explode('/', substr($path, 1));
     }
-    return explode('/', substr($path, 1));
+
+    throw new IllegalArgumentException('Malformed path, must either be empty or start with "/"');
   }
 
   /**
