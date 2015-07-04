@@ -29,18 +29,27 @@ class AddOperation extends Operation {
   }
 
   public function apply(&$target) {
-    $ptr= $this->pointer($target, array_slice($this->path, 0, -1));
-    $key= $this->path[sizeof($this->path) - 1];
-    $value= $ptr->value();
+    if (empty($this->path)) {         // Replace whole document
+      return $this->pointer($target, [])->modify($this->value);
+    }
 
-    if ('-' === $key) {
+    $ptr= $this->pointer($target, array_slice($this->path, 0, -1));
+
+    $address= $ptr->address($this->path[sizeof($this->path) - 1]);
+    if (null === $address) return false;
+
+    $value= $ptr->value();
+    if (!is_array($value)) return false;
+
+    if (true === $address) {          // Add to array
       $value[]= $this->value;
       return $ptr->modify($value);
-    } else if (is_numeric($key)) {
-      $pos= (int)$key;
-      return $ptr->modify(array_merge(array_slice($value, 0, $pos), [$this->value], array_slice($value, $pos)));
-    } else {
-      $value[$key]= $this->value;
+    } else if (is_int($address)) {    // Array offset
+      if ($address < 0 || $address > sizeof($value)) return false;
+      return $ptr->modify(array_merge(array_slice($value, 0, $address), [$this->value], array_slice($value, $address)));
+    } else {                          // Object member
+      if (0 === key($value)) return false;
+      $value[$address]= $this->value;
       return $ptr->modify($value);
     }
   }
