@@ -25,7 +25,9 @@ $document= [
   ]
 ];
 
-$changes= new Changes(['op' => 'add', 'path' => '/biscuits/1', 'value' => ['name' => 'Ginger Nut']]);
+$changes= new Changes(
+  ['op' => 'add', 'path' => '/biscuits/1', 'value' => ['name' => 'Ginger Nut']]
+);
 $changes->apply($document);
 
 // [
