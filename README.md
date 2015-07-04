@@ -13,6 +13,7 @@ Implements JSON patch documents described in [RFC #6902](http://tools.ietf.org/h
 
 Examples
 --------
+*See http://jsonpatch.com/:*
 
 ```php
 use text\json\patch\Changes;
