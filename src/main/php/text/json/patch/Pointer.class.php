@@ -7,6 +7,23 @@ class Pointer extends \lang\Object {
     $this->reference= &$reference;
   }
 
+  public function address($address) {
+    if ('-' === $address) {
+      return true;
+    } else if ('' === $address) {
+      return '';
+    } else {
+      $number= sscanf($address, '%d%s', $pos, $rest);
+      if (0 === $number) {
+        return $address;
+      } else if (1 === $number) {
+        return $pos;
+      } else {
+        return null;
+      }
+    }
+  }
+
   /**
    * Get a new pointer to an address inside this pointer
    *
@@ -14,12 +31,12 @@ class Pointer extends \lang\Object {
    * @return bool
    */
   public function to($address) {
-    if (is_numeric($address) && isset($this->reference[$pos= (int)$address])) {
-      return new self($this->reference[$pos]);
-    } else if (isset($this->reference[$address])) {
-      return new self($this->reference[$address]);
+    $key= $this->address($address);
+    if (array_key_exists($key, $this->reference)) {
+      return new self($this->reference[$key]);
+    } else {
+      return new NullPointer($address);
     }
-    return new NullPointer($address);
   }
 
   /** @return bool */
