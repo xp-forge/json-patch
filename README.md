@@ -14,4 +14,24 @@ Implements JSON patch documents described in [RFC #6902](http://tools.ietf.org/h
 Examples
 --------
 
-***TODO***
+```php
+use text\json\patch\Changes;
+
+$document= [
+  'biscuits' => [
+    ['name' => 'Digestive'],
+    ['name' => 'Choco Liebniz']
+  ]
+];
+
+$changes= new Changes(['op' => 'add', 'path' => '/biscuits/1', 'value' => ['name' => 'Ginger Nut']]);
+$changes->apply($document);
+
+// [
+//  'biscuits' => [
+//    ['name' => 'Digestive'],
+//    ['name' => 'Ginger Nut'],
+//    ['name' => 'Choco Liebniz']
+//  ]
+//];
+```
