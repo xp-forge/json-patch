@@ -62,7 +62,11 @@ class SpecTest extends \unittest\TestCase {
       $this->assertFalse($changes->apply($test['doc'])->successful());
     } else if (isset($test['expected'])) {
       $changes= new Changes(...$test['patch']);
-      $this->assertEquals($test['expected'], $changes->apply($test['doc'])->value());
+      $result= $changes->apply($test['doc']);
+      if (!$result->successful()) {
+        $this->fail('Changes did not apply successfully', $result->error()->message(), null);
+      }
+      $this->assertEquals($test['expected'], $result->value());
     } else {
       $changes= new Changes(...$test['patch']);
       $this->assertTrue($changes->apply($test['doc'])->successful());

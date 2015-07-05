@@ -36,7 +36,7 @@ class Changes extends \lang\Object {
   public function to() {
     $paths= [];
     foreach ($this->operations as $operation) {
-      $paths[$operation->path()]= true;
+      $paths[(string)$operation->path()]= true;
     }
     return array_keys($paths);
   }

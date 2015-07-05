@@ -22,9 +22,10 @@ class TestOperation extends Operation {
   }
 
   public function apply(&$target) {
-    $ptr= $this->pointer($target, $this->path);
-    if ($ptr->resolves()) {
-      return Objects::equal($ptr->value(), $this->value) ? null : new NotEquals($ptr->value(), $this->value);
+    $address= $this->path->resolve($target);
+    if ($address->exists()) {
+      $value= $address->value();
+      return Objects::equal($value, $this->value) ? null : new NotEquals($value, $this->value);
     } else {
       return new PathDoesNotExist($this->path());
     }
@@ -32,6 +33,6 @@ class TestOperation extends Operation {
 
   /** @return string */
   public function toString() {
-    return nameof($this).'(test '.$this->path().' == '.Objects::stringOf($this->value).')';
+    return nameof($this).'(test '.$this->path.' == '.Objects::stringOf($this->value).')';
   }
 }

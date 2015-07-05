@@ -29,13 +29,7 @@ class AddOperation extends Operation {
   }
 
   public function apply(&$target) {
-    if (empty($this->path)) {         // Replace whole document
-      return $this->pointer($target, [])->modify($this->value);
-    }
-
-    $ptr= $this->pointer($target, array_slice($this->path, 0, -1));
-    $address= $ptr->address($this->path[sizeof($this->path) - 1]);
-    return $this->modify($ptr, $address, $this->value);
+    return $this->path->resolve($target)->add($this->value);
   }
 
   /** @return string */

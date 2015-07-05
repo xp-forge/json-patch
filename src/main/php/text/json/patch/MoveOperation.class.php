@@ -22,35 +22,24 @@ class MoveOperation extends Operation {
    */
   public function __construct($operation) {
     parent::__construct($operation);
-    $this->from= $this->parse($this->requires($operation, 'from'));
+    $this->from= new Pointer($this->requires($operation, 'from'));
   }
 
   public function apply(&$target) {
-    $from= $this->pointer($target, array_slice($this->from, 0, -1));
-
-    $key= $from->address($this->from[sizeof($this->from) - 1]);
-    $source= $from->to($key);
-    if (!$source->resolves()) return new PathDoesNotExist('/'.implode('/', $this->from));
-    $to= $this->pointer($target, array_slice($this->path, 0, -1));
-    $address= $to->address($this->path[sizeof($this->path) - 1]);
-    if (!$to->resolves() || null === $address) return new PathDoesNotExist($this->path());
-
-    // Remove
+    $from= $this->from->resolve($target);
+    $to= $this->path->resolve($target);
     $value= $from->value();
-    if (true === $key) {
-      return new ArrayIndexOutOfBounds('Cannot remove from "-" array index');
-    } else if (is_int($key)) {
-      $from->modify(array_merge(array_slice($value, 0, $key), array_slice($value, $key + 1)));
-    } else {
-      unset($value[$key]);
-      $from->modify($value);
-    }
 
-    return $this->modify($to, $address, $source->value());
+    $error= $from->remove();
+    if (null === $error) {
+      return $to->add($value);  
+    } else {
+      return $error;
+    }
   }
 
   /** @return string */
   public function toString() {
-    return nameof($this).'(move /'.implode('/', $this->from).' -> '.$this->path().')';
+    return nameof($this).'(move /'.$this->from.' -> '.$this->path.')';
   }
 }

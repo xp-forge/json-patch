@@ -22,20 +22,19 @@ class CopyOperation extends Operation {
    */
   public function __construct($operation) {
     parent::__construct($operation);
-    $this->from= $this->parse($this->requires($operation, 'from'));
+    $this->from= new Pointer($this->requires($operation, 'from'));
   }
 
   public function apply(&$target) {
-    $source= $this->pointer($target, $this->from);
-    if (!$source->resolves()) return new PathDoesNotExist('/'.implode('/', $this->from));
-
-    $ptr= $this->pointer($target, array_slice($this->path, 0, -1));
-    $address= $ptr->address($this->path[sizeof($this->path) - 1]);
-    return $this->modify($ptr, $address, $source->value());
+    $from= $this->from->resolve($target);
+    if ($from->exists()) {
+      return $this->path->resolve($target)->add($from->value());
+    }
+    return new PathDoesNotExist($this->from);
   }
 
   /** @return string */
   public function toString() {
-    return nameof($this).'(copy /'.implode('/', $this->from).' -> '.$this->path().')';
+    return nameof($this).'(copy '.$this->from.' -> '.$this->path.')';
   }
 }

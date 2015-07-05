@@ -21,28 +21,11 @@ abstract class Operation extends \lang\Object {
    */
   public function __construct($operation) {
     $this->requires($operation, 'op');
-    $this->path= $this->parse($this->requires($operation, 'path'));
+    $this->path= new Pointer($this->requires($operation, 'path'));
   }
 
-  /** @return string */
-  public function path() { return '/'.implode('/', $this->path); }
-
-  /**
-   * Parses a path
-   *
-   * @param  string $path
-   * @return string[]
-   * @throws lang.IllegalArgumentException If the path does not start with "/"
-   */
-  protected function parse($path) {
-    if ('' === $path) {
-      return [];
-    } else if (1 === strspn($path, '/')) {
-      return explode('/', substr($path, 1));
-    }
-
-    throw new IllegalArgumentException('Malformed path, must either be empty or start with "/"');
-  }
+  /** @return text.json.patch.Pointer */
+  public function path() { return $this->path; }
 
   /**
    * Verifies a given member exists in the input and returns its value on success.
@@ -60,46 +43,10 @@ abstract class Operation extends \lang\Object {
   }
 
   /**
-   * Returns a pointer
-   *
-   * @param  var $value
-   * @param  string[] $path
-   * @return text.json.patch.Pointer
-   */
-  protected function pointer(&$value, $path) {
-    $pointer= new Pointer($value);
-    foreach ($path as $element) {
-      $pointer= $pointer->to($element);
-    }
-    return $pointer;
-  }
-
-  protected function modify($ptr, $address, $value) {
-    if (!$ptr->resolves() || null === $address) return new PathDoesNotExist($this->path());
-
-    $resolved= $ptr->value();
-    if (!is_array($resolved)) return new TypeConflict('Trying to modify non-array');
-
-    if (true === $address) {          // Add to array
-      $resolved[]= $value;
-      return $ptr->modify($resolved);
-    } else if (is_int($address)) {    // Array offset
-      if ($address < 0 || $address > sizeof($resolved)) return new ArrayIndexOutOfBounds($address);
-
-      return $ptr->modify(array_merge(array_slice($resolved, 0, $address), [$value], array_slice($resolved, $address)));
-    } else {                          // Object member
-      if (0 === key($resolved)) return new TypeConflict('Trying to add an object member to an array');
-
-      $resolved[$address]= $value;
-      return $ptr->modify($resolved);
-    }
-  }
-
-  /**
    * Apply this operation to a given target and return whether the operation was successful.
    *
-   * @param  var $value
-   * @return string Any errors that occurred
+   * @param  var $target
+   * @return text.json.patch.Error
    */
   public abstract function apply(&$target);
 }

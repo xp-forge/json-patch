@@ -23,11 +23,11 @@ class ReplaceOperation extends Operation {
   }
 
   public function apply(&$target) {
-    return $this->pointer($target, $this->path)->modify($this->value);
+    return $this->path->resolve($target)->modify($this->value);
   }
 
   /** @return string */
   public function toString() {
-    return nameof($this).'(replace '.$this->path().' => '.Objects::stringOf($this->value).')';
+    return nameof($this).'(replace '.$this->path.' => '.Objects::stringOf($this->value).')';
   }
 }
