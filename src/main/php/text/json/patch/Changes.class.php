@@ -47,15 +47,13 @@ class Changes extends \lang\Object {
    * @param  var $value
    * @param  [:bool] A map with paths as keys and whether a change was performed
    */
-  public function apply(&$value) {
-    $changed= [];
-    $continue= true;
+  public function apply($value) {
+    $successful= true;
     foreach ($this->operations as $operation) {
-      if ($continue) {
-        $continue= $operation->apply($value);
+      if ($successful) {
+        $successful= $operation->apply($value);
       }
-      $changed[$operation->path()]= $continue;
     }
-    return $changed;
+    return new Results($successful, $successful ? $value : null);
   }
 }

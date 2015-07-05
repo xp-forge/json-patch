@@ -54,12 +54,12 @@ class SpecTest extends \unittest\TestCase {
       }
       $value= $test['doc'];
       $changes= $changes->apply($value);
-      $this->assertFalse($changes[key($changes)]);
+      $this->assertFalse($changes->successful());
     } else if (isset($test['expected'])) {
       $value= $test['doc'];
       $changes= new Changes(...$test['patch']);
-      $changes->apply($value);
-      $this->assertEquals($test['expected'], $value);
+      $actual= $changes->apply($value);
+      $this->assertEquals($test['expected'], $actual->value());
     } else {
       $value= $test['doc'];
       $changes= new Changes(...$test['patch']);
