@@ -30,6 +30,7 @@ $changes= new Changes(
 );
 $changed= $changes->apply($document);
 
+// $changed->successful() := true
 // $changed->value() := [
 //  'biscuits' => [
 //    ['name' => 'Digestive'],
