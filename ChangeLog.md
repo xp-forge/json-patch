@@ -3,6 +3,13 @@ Data sequences change log
 
 ## ?.?.? / ????-??-??
 
+## 0.3.0 / 2015-07-05
+
+* Code quality assurance: Add api documentation where missing
+  (@thekid)
+* Verify escaping works as described in JSON pointer RFC
+  (@thekid)
+
 ## 0.2.0 / 2015-07-05
 
 * Made it possible to shorten array by allowing the remove operation in
