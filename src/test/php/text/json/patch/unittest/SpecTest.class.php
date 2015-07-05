@@ -21,8 +21,11 @@ class SpecTest extends \unittest\TestCase {
     $this->target= $target;
   }
 
+  /** @return var[][] */
   public function specifications() {
-    if (is_file($this->target)) {
+    if (null === $this->target) {
+      return [];
+    } else if (is_file($this->target)) {
       $files= [new FileElement($this->target)];
     } else {
       $files= new FilteredIOCollectionIterator(new FileCollection($this->target), new ExtensionEqualsFilter('json'));
