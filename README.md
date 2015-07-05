@@ -28,9 +28,9 @@ $document= [
 $changes= new Changes(
   ['op' => 'add', 'path' => '/biscuits/1', 'value' => ['name' => 'Ginger Nut']]
 );
-$changes->apply($document);
+$changed= $changes->apply($document);
 
-// [
+// $changed->value() := [
 //  'biscuits' => [
 //    ['name' => 'Digestive'],
 //    ['name' => 'Ginger Nut'],
