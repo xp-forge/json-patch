@@ -32,7 +32,7 @@ class TestOperation extends Operation {
     $address= $this->path->resolve($target);
     if ($address->exists()) {
       $value= $address->value();
-      return Objects::equal($value, $this->value) ? null : new NotEquals($value, $this->value);
+      return Objects::equal($value, $this->value) ? Applied::$CLEANLY : new NotEquals($value, $this->value);
     } else {
       return new PathDoesNotExist($this->path());
     }

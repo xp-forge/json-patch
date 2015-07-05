@@ -1,7 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\CopyOperation;
-use lang\IllegalArgumentException;
+use text\json\patch\Applied;
 
 class CopyOperationTest extends OperationTest {
 
@@ -10,7 +10,7 @@ class CopyOperationTest extends OperationTest {
     $operation= new CopyOperation('/a/b/c', '/a/b/e');
 
     $value= ['a' => ['b' => ['c' => 'value']]];
-    $this->assertNull($operation->applyTo($value));
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals(['a' => ['b' => ['c' => 'value', 'e' => 'value']]], $value);
   }
 }

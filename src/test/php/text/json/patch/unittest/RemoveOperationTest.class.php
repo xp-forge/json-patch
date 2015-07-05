@@ -1,7 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\RemoveOperation;
-use lang\IllegalArgumentException;
+use text\json\patch\Applied;
 
 class RemoveOperationTest extends OperationTest {
 
@@ -10,7 +10,7 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation('/baz');
 
     $value= ['baz' => 'qux', 'foo' => 'bar'];
-    $this->assertNull($operation->applyTo($value));
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals(['foo' => 'bar'], $value);
   }
 
@@ -19,7 +19,7 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation('/foo/1');
 
     $value= ['foo' => ['bar', 'qux', 'baz']];
-    $this->assertNull($operation->applyTo($value));
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals(['foo' => ['bar', 'baz']], $value);
   }
 

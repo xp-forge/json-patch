@@ -1,7 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\ReplaceOperation;
-use lang\IllegalArgumentException;
+use text\json\patch\Applied;
 
 class ReplaceOperationTest extends OperationTest {
 
@@ -19,7 +19,7 @@ class ReplaceOperationTest extends OperationTest {
     $operation= new ReplaceOperation('/value', self::CHANGED);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertNull($operation->applyTo($value));
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
   #[@test]
@@ -35,6 +35,6 @@ class ReplaceOperationTest extends OperationTest {
     $operation= new ReplaceOperation('/value', self::ORIGINAL);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertNull($operation->applyTo($value));
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 }

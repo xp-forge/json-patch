@@ -19,12 +19,12 @@ class ObjectMember extends Address {
    * Modify this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function modify($value) {
     if ($this->exists) {
       $this->reference= $value;
-      return null;
+      return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
     }
@@ -33,12 +33,12 @@ class ObjectMember extends Address {
   /**
    * Remove this address
    *
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function remove() {
     if ($this->exists) {
       unset($this->parent->reference[$this->name]);
-      return null;
+      return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
     }
@@ -48,7 +48,7 @@ class ObjectMember extends Address {
    * Add to this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function add($value) {
     if ($this->parent->exists) {
@@ -57,7 +57,7 @@ class ObjectMember extends Address {
       }
 
       $this->parent->reference[$this->name]= $value;
-      return null;
+      return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
     }

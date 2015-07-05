@@ -24,10 +24,10 @@ abstract class Operation extends \lang\Object {
   public function path() { return $this->path; }
 
   /**
-   * Apply this operation to a given target and return whether the operation was successful.
+   * Apply this operation to a given target and return result
    *
    * @param  var $target
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public abstract function applyTo(&$target);
 }

@@ -1,7 +1,13 @@
 <?php namespace text\json\patch;
 
-abstract class Error extends \lang\Object {
+abstract class Error extends Applied {
 
+  static function __static() { }
+
+  /** @return true */
+  public function isError() { return true; }
+
+  /** @return string */
   public abstract function message();
 
   /** @return string */

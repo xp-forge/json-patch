@@ -1,8 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\AddOperation;
-use text\json\patch\Operation;
-use lang\IllegalArgumentException;
+use text\json\patch\Applied;
 
 class AddOperationTest extends OperationTest {
 
@@ -11,7 +10,7 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/baz', 'qux');
 
     $value= ['foo' => 'bar'];
-    $this->assertNull($operation->applyTo($value));
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $value);
   }
 
@@ -20,7 +19,7 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/foo/1', 'qux');
 
     $value= ['foo' => ['bar', 'baz']];
-    $this->assertNull($operation->applyTo($value));
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals(['foo' => ['bar', 'qux', 'baz']], $value);
   }
 
@@ -37,7 +36,7 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/foo/-', ['abc', 'def']);
 
     $value= ['foo' => ['bar']];
-    $this->assertNull($operation->applyTo($value));
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals(['foo' => ['bar', ['abc', 'def']]], $value);
   }
 }

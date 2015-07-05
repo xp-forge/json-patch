@@ -13,7 +13,7 @@ class ArrayEnd extends Address {
    * Removes this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function modify($value) {
     return new ArrayIndexOutOfBounds('-');
@@ -22,7 +22,7 @@ class ArrayEnd extends Address {
   /**
    * Removes this address
    *
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function remove() {
     return new ArrayIndexOutOfBounds('-');
@@ -32,12 +32,12 @@ class ArrayEnd extends Address {
    * Add to this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function add($value) {
     if ($this->parent->exists) {
       $this->parent->reference[]= $value;
-      return null;
+      return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
     }

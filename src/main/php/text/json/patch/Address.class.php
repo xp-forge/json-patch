@@ -31,14 +31,14 @@ abstract class Address extends \lang\Object {
    * Modify this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public abstract function modify($value);
 
   /**
    * Remove this address
    *
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public abstract function remove();
 
@@ -46,7 +46,7 @@ abstract class Address extends \lang\Object {
    * Add to this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public abstract function add($value);
 }

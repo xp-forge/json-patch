@@ -37,12 +37,7 @@ class MoveOperation extends Operation {
     $to= $this->path->resolve($target);
     $value= $from->value();
 
-    $error= $from->remove();
-    if (null === $error) {
-      return $to->add($value);  
-    } else {
-      return $error;
-    }
+    return $from->remove()->then(function() use($to, $value) { return $to->add($value); });
   }
 
   /** @return string */

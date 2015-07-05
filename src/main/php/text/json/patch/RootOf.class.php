@@ -9,17 +9,17 @@ class RootOf extends Address {
    * Modify this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function modify($value) {
     $this->reference= $value;
-    return null;
+    return Applied::$CLEANLY;
   }
 
   /**
    * Remove this address
    *
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function remove() {
     return new TypeConflict('Cannot remove root');
@@ -29,10 +29,10 @@ class RootOf extends Address {
    * Add to this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function add($value) {
     $this->reference= $value;
-    return null;
+    return Applied::$CLEANLY;
   }
 }

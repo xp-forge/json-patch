@@ -1,7 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\TestOperation;
-use lang\IllegalArgumentException;
+use text\json\patch\Applied;
 
 class TestOperationTest extends OperationTest {
 
@@ -10,7 +10,7 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation('/value', self::ORIGINAL);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertNull($operation->applyTo($value));
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
   #[@test]

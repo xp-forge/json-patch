@@ -19,12 +19,12 @@ class ArrayIndex extends Address {
    * Modify this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function modify($value) {
     if ($this->exists) {
       $this->reference= $value;
-      return null;
+      return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
     }
@@ -33,7 +33,7 @@ class ArrayIndex extends Address {
   /**
    * Removes this address
    *
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function remove() {
     if ($this->exists) {
@@ -41,7 +41,7 @@ class ArrayIndex extends Address {
         array_slice($this->parent->reference, 0, $this->pos),
         array_slice($this->parent->reference, $this->pos + 1)
       );
-      return null;
+      return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
     }
@@ -51,7 +51,7 @@ class ArrayIndex extends Address {
    * Add to this address
    *
    * @param  var $value
-   * @return text.json.patch.Error
+   * @return text.json.patch.Applied
    */
   public function add($value) {
     if ($this->parent->exists) {
@@ -64,7 +64,7 @@ class ArrayIndex extends Address {
         [$value],
         array_slice($this->parent->reference, $this->pos)
       );
-      return null;
+      return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
     }
