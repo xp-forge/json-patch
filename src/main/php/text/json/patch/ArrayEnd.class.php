@@ -35,6 +35,9 @@ class ArrayEnd extends Address {
       if (array_key_exists('-', $this->parent->reference)) {
         unset($this->parent->reference['-']);
         return Applied::$CLEANLY;
+      } else if (0 === key($this->parent->reference)) {
+        array_pop($this->parent->reference);
+        return Applied::$CLEANLY;
       }
     }
     return new ArrayIndexOutOfBounds('-');

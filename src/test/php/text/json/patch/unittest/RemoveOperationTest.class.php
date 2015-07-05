@@ -55,4 +55,13 @@ class RemoveOperationTest extends OperationTest {
     $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals([], $value);
   }
+
+  #[@test]
+  public function shorten_array() {
+    $operation= new RemoveOperation('/-');
+
+    $value= [1, 2, 3];
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    $this->assertEquals([1, 2], $value);
+  }
 }
