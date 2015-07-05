@@ -14,14 +14,21 @@ class TestOperation extends Operation {
   /**
    * Creates a new test operation
    *
-   * @param  [:var] $operation
+   * @param  string $path The path
+   * @param  var $value The value to compare against
    */
-  public function __construct($operation) {
-    parent::__construct($operation);
-    $this->value= $this->requires($operation, 'value');
+  public function __construct($path, $value) {
+    parent::__construct($path);
+    $this->value= $value;
   }
 
-  public function apply(&$target) {
+  /**
+   * Apply this operation to a given target reference
+   *
+   * @param  var $target
+   * @return text.json.path.Error
+   */
+public function apply(&$target) {
     $address= $this->path->resolve($target);
     if ($address->exists()) {
       $value= $address->value();
@@ -34,5 +41,15 @@ class TestOperation extends Operation {
   /** @return string */
   public function toString() {
     return nameof($this).'(test '.$this->path.' == '.Objects::stringOf($this->value).')';
+  }
+
+  /**
+   * Returns whether a given value is equal to this results instance
+   *
+   * @param  var $cmp
+   * @return bool
+   */
+  public function equals($cmp) {
+    return $cmp instanceof self && Objects::equal($this->value, $cmp->value);
   }
 }

@@ -5,24 +5,9 @@ use lang\IllegalArgumentException;
 
 class MoveOperationTest extends OperationTest {
 
-  #[@test, @expect(class= IllegalArgumentException::class, withMessage= '/Missing member "op"/')]
-  public function missing_op() {
-    new MoveOperation([]);
-  }
-
-  #[@test, @expect(class= IllegalArgumentException::class, withMessage= '/Missing member "path"/')]
-  public function missing_path() {
-    new MoveOperation(['op' => 'move']);
-  }
-
-  #[@test, @expect(class= IllegalArgumentException::class, withMessage= '/Missing member "from"/')]
-  public function missing_from() {
-    new MoveOperation(['op' => 'move', 'path' => '/target']);
-  }
-
   #[@test]
   public function moving_a_value() {
-    $operation= new MoveOperation(['op' => 'move', 'from' => '/foo/waldo', 'path' => '/qux/thud']);
+    $operation= new MoveOperation('/foo/waldo', '/qux/thud');
 
     $value= ['foo' => ['bar' => 'baz', 'waldo' => 'fred'], 'qux' => ['corge' => 'grault']];
     $this->assertNull($operation->apply($value));
@@ -31,7 +16,7 @@ class MoveOperationTest extends OperationTest {
 
   #[@test]
   public function moving_an_array_element() {
-    $operation= new MoveOperation(['op' => 'move', 'from' => '/foo/1', 'path' => '/foo/3']);
+    $operation= new MoveOperation('/foo/1', '/foo/3');
 
     $value= ['foo' => ['all', 'grass', 'cows', 'eat']];
     $this->assertNull($operation->apply($value));

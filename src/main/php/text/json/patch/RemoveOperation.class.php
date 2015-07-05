@@ -8,6 +8,12 @@
  */
 class RemoveOperation extends Operation {
 
+  /**
+   * Apply this operation to a given target reference
+   *
+   * @param  var $target
+   * @return text.json.path.Error
+   */
   public function apply(&$target) {
     return $this->path->resolve($target)->remove();
   }
@@ -15,5 +21,15 @@ class RemoveOperation extends Operation {
   /** @return string */
   public function toString() {
     return nameof($this).'(remove '.$this->path.')';
+  }
+
+  /**
+   * Returns whether a given value is equal to this results instance
+   *
+   * @param  var $cmp
+   * @return bool
+   */
+  public function equals($cmp) {
+    return $cmp instanceof self && $this->path->equals($cmp->path);
   }
 }

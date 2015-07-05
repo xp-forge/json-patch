@@ -6,24 +6,9 @@ use lang\IllegalArgumentException;
 
 class AddOperationTest extends OperationTest {
 
-  #[@test, @expect(class= IllegalArgumentException::class, withMessage= '/Missing member "op"/')]
-  public function missing_op() {
-    new AddOperation([]);
-  }
-
-  #[@test, @expect(class= IllegalArgumentException::class, withMessage= '/Missing member "path"/')]
-  public function missing_path() {
-    new AddOperation(['op' => 'add']);
-  }
-
-  #[@test, @expect(class= IllegalArgumentException::class, withMessage= '/Missing member "value"/')]
-  public function missing_value() {
-    new AddOperation(['op' => 'add', 'path' => '/value']);
-  }
-
   #[@test]
   public function adding_an_object_member() {
-    $operation= new AddOperation(['op' => 'add', 'path' => '/baz', 'value' => 'qux']);
+    $operation= new AddOperation('/baz', 'qux');
 
     $value= ['foo' => 'bar'];
     $this->assertNull($operation->apply($value));
@@ -32,7 +17,7 @@ class AddOperationTest extends OperationTest {
 
   #[@test]
   public function adding_an_array_element() {
-    $operation= new AddOperation(['op' => 'add', 'path' => '/foo/1', 'value' => 'qux']);
+    $operation= new AddOperation('/foo/1', 'qux');
 
     $value= ['foo' => ['bar', 'baz']];
     $this->assertNull($operation->apply($value));
@@ -41,7 +26,7 @@ class AddOperationTest extends OperationTest {
 
   #[@test]
   public function adding_to_a_nonexistent_target() {
-    $operation= new AddOperation(['op' => 'add', 'path' => '/baz/bat', 'value' => 'qux']);
+    $operation= new AddOperation('/baz/bat', 'qux');
 
     $value= ['foo' => 'bar'];
     $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->apply($value));
@@ -49,7 +34,7 @@ class AddOperationTest extends OperationTest {
 
   #[@test]
   public function adding_an_array_value() {
-    $operation= new AddOperation(['op' => 'add', 'path' => '/foo/-', 'value' => ['abc', 'def']]);
+    $operation= new AddOperation('/foo/-', ['abc', 'def']);
 
     $value= ['foo' => ['bar']];
     $this->assertNull($operation->apply($value));

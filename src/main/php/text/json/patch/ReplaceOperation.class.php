@@ -13,15 +13,22 @@ class ReplaceOperation extends Operation {
   private $value;
 
   /**
-   * Creates a new replace operation
+   * Creates a new test operation
    *
-   * @param  [:var] $operation
+   * @param  string $path The path
+   * @param  var $value The value to replace
    */
-  public function __construct($operation) {
-    parent::__construct($operation);
-    $this->value= $this->requires($operation, 'value');
+  public function __construct($path, $value) {
+    parent::__construct($path);
+    $this->value= $value;
   }
 
+  /**
+   * Apply this operation to a given target reference
+   *
+   * @param  var $target
+   * @return text.json.path.Error
+   */
   public function apply(&$target) {
     return $this->path->resolve($target)->modify($this->value);
   }
@@ -29,5 +36,15 @@ class ReplaceOperation extends Operation {
   /** @return string */
   public function toString() {
     return nameof($this).'(replace '.$this->path.' => '.Objects::stringOf($this->value).')';
+  }
+
+  /**
+   * Returns whether a given value is equal to this results instance
+   *
+   * @param  var $cmp
+   * @return bool
+   */
+  public function equals($cmp) {
+    return $cmp instanceof self && Objects::equal($this->value, $cmp->value);
   }
 }

@@ -16,15 +16,22 @@ class CopyOperation extends Operation {
   private $from;
 
   /**
-   * Creates a new replace operation
+   * Creates a new test operation
    *
-   * @param  [:var] $operation
+   * @param  string $from The source path
+   * @param  string $path The target path
    */
-  public function __construct($operation) {
-    parent::__construct($operation);
-    $this->from= new Pointer($this->requires($operation, 'from'));
+  public function __construct($from, $path) {
+    parent::__construct($path);
+    $this->from= new Pointer($from);
   }
 
+  /**
+   * Apply this operation to a given target reference
+   *
+   * @param  var $target
+   * @return text.json.path.Error
+   */
   public function apply(&$target) {
     $from= $this->from->resolve($target);
     if ($from->exists()) {
@@ -36,5 +43,15 @@ class CopyOperation extends Operation {
   /** @return string */
   public function toString() {
     return nameof($this).'(copy '.$this->from.' -> '.$this->path.')';
+  }
+
+  /**
+   * Returns whether a given value is equal to this results instance
+   *
+   * @param  var $cmp
+   * @return bool
+   */
+  public function equals($cmp) {
+    return $cmp instanceof self && $this->path->equals($cmp->path) && $this->from->equals($cmp->from);
   }
 }

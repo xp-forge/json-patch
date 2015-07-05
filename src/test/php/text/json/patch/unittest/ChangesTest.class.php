@@ -17,7 +17,7 @@ class ChangesTest extends \unittest\TestCase {
   #  [['op' => 'replace', 'path' => '/a/b/c', 'value' => 42]],
   #  [['op' => 'move', 'from' => '/a/b/c', 'path' => '/a/b/d']],
   #  [['op' => 'copy', 'from' => '/a/b/d', 'path' => '/a/b/e']],
-  #  [new TestOperation(['op' => 'test', 'path' => '/a/b/c', 'value' => null])]
+  #  [new TestOperation('/a/b/c', null)]
   #])]
   public function can_create_from($operation) {
     new Changes($operation);
@@ -27,8 +27,8 @@ class ChangesTest extends \unittest\TestCase {
   public function can_create_from_map_and_instance() {
     new Changes(
       ['op' => 'test', 'path' => '/a/b/c', 'value' => null],
-      new TestOperation(['op' => 'test', 'path' => '/a/b/c', 'value' => null]
-    ));
+      new TestOperation('/a/b/c', null)
+    );
   }
 
   #[@test]
@@ -38,7 +38,7 @@ class ChangesTest extends \unittest\TestCase {
 
   #[@test]
   public function operations() {
-    $operation= new TestOperation(['op' => 'test', 'path' => '/a/b/c', 'value' => null]);
+    $operation= new TestOperation('/a/b/c', null);
     $this->assertEquals([$operation], (new Changes($operation))->operations());
   }
 

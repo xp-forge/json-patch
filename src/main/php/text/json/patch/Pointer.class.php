@@ -70,4 +70,14 @@ class Pointer extends \lang\Object {
       return $path;
     }
   }
+
+  /**
+   * Returns whether a given value is equal to this results instance
+   *
+   * @param  var $cmp
+   * @return bool
+   */
+  public function equals($cmp) {
+    return $cmp instanceof self && $this->__toString() === $cmp->__toString();
+  }
 }
