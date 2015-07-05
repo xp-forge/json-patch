@@ -36,6 +36,15 @@ $patch= [
 $changes= new Changes(...$patch);
 ```
 
+Available operations are:
+
+* `AddOperation(string $path, var $value)` - The "add" operation performs one of the following functions, depending upon what the target location references.
+* `RemoveOperation(string $path)` - The "remove" operation removes the value at the target location.
+* `ReplaceOperation(string $path, var $value)` - The "replace" operation replaces the value at the target location with a new value. 
+* `MoveOperation(string $from, string $to)` - The "move" operation removes the value at a specified location and adds it to the target location.
+* `CopyOperation(string $from, string $to)` - The "copy" operation copies the value at a specified location to the target location.
+* `TestOperation(string $path, var $value)` - The "test" operation tests that a value at the target location is equal to a specified value.
+
 To apply the changes, call the `apply()` method and work with the result:
 
 ```php
