@@ -28,4 +28,40 @@ class TestOperationTest extends OperationTest {
     $value= ['value' => 10];
     $this->assertInstanceOf('text.json.patch.NotEquals', $operation->applyTo($value));
   }
+
+  #[@test, @values([1, -1, 0.5, null, '', false, true])]
+  public function test_with_toplevel($value) {
+    $operation= new TestOperation('', $value);
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+  }
+
+  #[@test, @values([[2, 2.0], [2.0, 2]])]
+  public function numerically_equal($value, $compare) {
+    $operation= new TestOperation('', $compare);
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+  }
+
+  #[@test, @values([
+  #  [['test' => true, 'color' => 'green']],
+  #  [['color' => 'green', 'test' => true]]
+  #])]
+  public function comparing_objects($compare) {
+    $operation= new TestOperation('', $compare);
+
+    $value= ['color' => 'green', 'test' => true];
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+  }
+
+  #[@test, @values([
+  #  ['', false], [false, ''],
+  #  [0, false], [false, 0],
+  #  [0.0, false], [false, 0.0],
+  #  [[], false], [false, []],
+  #  [null, false], [false, null]
+  #])]
+  public function falsy_values_do_not_compare($value, $compare) {
+    $operation= new TestOperation('', $compare);
+    $this->assertInstanceOf('text.json.patch.NotEquals', $operation->applyTo($value));
+  }
+
 }

@@ -38,4 +38,12 @@ class RemoveOperationTest extends OperationTest {
     $value= ['foo' => ['bar']];
     $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
+
+  #[@test]
+  public function cannot_remove_whole_document() {
+    $operation= new RemoveOperation('');
+
+    $value= null;
+    $this->assertInstanceOf('text.json.patch.TypeConflict', $operation->applyTo($value));
+  }
 }

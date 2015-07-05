@@ -37,4 +37,13 @@ class ReplaceOperationTest extends OperationTest {
     $value= ['value' => self::ORIGINAL];
     $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
   }
+
+  #[@test]
+  public function can_replace_toplevel() {
+    $operation= new ReplaceOperation('', self::CHANGED);
+
+    $value= self::ORIGINAL;
+    $operation->applyTo($value);
+    $this->assertEquals(self::CHANGED, $value);
+  }
 }

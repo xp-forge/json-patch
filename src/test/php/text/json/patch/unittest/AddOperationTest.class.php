@@ -39,4 +39,13 @@ class AddOperationTest extends OperationTest {
     $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals(['foo' => ['bar', ['abc', 'def']]], $value);
   }
+
+  #[@test]
+  public function add_should_replace_existing_object_member() {
+    $operation= new AddOperation('/baz', 'qux');
+
+    $value= ['foo' => 'bar', 'baz' => 'bat'];
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $value);
+  }
 }

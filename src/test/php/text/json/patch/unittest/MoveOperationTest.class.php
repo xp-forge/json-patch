@@ -22,4 +22,13 @@ class MoveOperationTest extends OperationTest {
     $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals(['foo' => ['all', 'cows', 'eat', 'grass']], $value);
   }
+
+  #[@test]
+  public function moving_to_end_of_array() {
+    $operation= new MoveOperation('/foo/1', '/foo/-');
+
+    $value= ['foo' => ['all', 'grass', 'cows', 'eat']];
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    $this->assertEquals(['foo' => ['all', 'cows', 'eat', 'grass']], $value);
+  }
 }
