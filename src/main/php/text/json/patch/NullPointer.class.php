@@ -27,9 +27,9 @@ class NullPointer extends Pointer {
    * Modify this pointer
    *
    * @param  var $value
-   * @return bool
+   * @return text.json.patch.Error
    */
   public function modify($value) {
-    return false;
+    return new PathDoesNotExist($this->address);
   }
 }

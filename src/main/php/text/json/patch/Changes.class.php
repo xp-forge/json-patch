@@ -51,7 +51,8 @@ class Changes extends \lang\Object {
     $successful= true;
     foreach ($this->operations as $operation) {
       if ($successful) {
-        $successful= $operation->apply($value);
+        $error= $operation->apply($value);
+        $successful= null === $error || true === $error;
       }
     }
     return new Results($successful, $successful ? $value : null);

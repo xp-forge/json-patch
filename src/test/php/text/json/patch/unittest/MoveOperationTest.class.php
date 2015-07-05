@@ -25,7 +25,7 @@ class MoveOperationTest extends OperationTest {
     $operation= new MoveOperation(['op' => 'move', 'from' => '/foo/waldo', 'path' => '/qux/thud']);
 
     $value= ['foo' => ['bar' => 'baz', 'waldo' => 'fred'], 'qux' => ['corge' => 'grault']];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
     $this->assertEquals(['foo' => ['bar' => 'baz'], 'qux' => ['corge' => 'grault', 'thud' => 'fred']], $value);
   }
 
@@ -34,7 +34,7 @@ class MoveOperationTest extends OperationTest {
     $operation= new MoveOperation(['op' => 'move', 'from' => '/foo/1', 'path' => '/foo/3']);
 
     $value= ['foo' => ['all', 'grass', 'cows', 'eat']];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
     $this->assertEquals(['foo' => ['all', 'cows', 'eat', 'grass']], $value);
   }
 }

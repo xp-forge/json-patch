@@ -20,7 +20,7 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation(['op' => 'remove', 'path' => '/baz']);
 
     $value= ['baz' => 'qux', 'foo' => 'bar'];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
     $this->assertEquals(['foo' => 'bar'], $value);
   }
 
@@ -29,7 +29,7 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation(['op' => 'remove', 'path' => '/foo/1']);
 
     $value= ['foo' => ['bar', 'qux', 'baz']];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
     $this->assertEquals(['foo' => ['bar', 'baz']], $value);
   }
 
@@ -38,7 +38,7 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation(['op' => 'remove', 'path' => '/baz']);
 
     $value= ['foo' => 'bar'];
-    $this->assertFalse($operation->apply($value));
+    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->apply($value));
   }
 
   #[@test]
@@ -46,6 +46,6 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation(['op' => 'remove', 'path' => '/foo/1']);
 
     $value= ['foo' => ['bar']];
-    $this->assertFalse($operation->apply($value));
+    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->apply($value));
   }
 }

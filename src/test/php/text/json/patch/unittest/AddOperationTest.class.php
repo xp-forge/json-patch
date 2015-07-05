@@ -26,7 +26,7 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation(['op' => 'add', 'path' => '/baz', 'value' => 'qux']);
 
     $value= ['foo' => 'bar'];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
     $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $value);
   }
 
@@ -35,7 +35,7 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation(['op' => 'add', 'path' => '/foo/1', 'value' => 'qux']);
 
     $value= ['foo' => ['bar', 'baz']];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
     $this->assertEquals(['foo' => ['bar', 'qux', 'baz']], $value);
   }
 
@@ -44,7 +44,7 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation(['op' => 'add', 'path' => '/baz/bat', 'value' => 'qux']);
 
     $value= ['foo' => 'bar'];
-    $this->assertFalse($operation->apply($value));
+    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->apply($value));
   }
 
   #[@test]
@@ -52,7 +52,7 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation(['op' => 'add', 'path' => '/foo/-', 'value' => ['abc', 'def']]);
 
     $value= ['foo' => ['bar']];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
     $this->assertEquals(['foo' => ['bar', ['abc', 'def']]], $value);
   }
 }

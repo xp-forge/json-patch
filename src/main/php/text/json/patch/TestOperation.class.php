@@ -23,7 +23,11 @@ class TestOperation extends Operation {
 
   public function apply(&$target) {
     $ptr= $this->pointer($target, $this->path);
-    return $ptr->resolves() && Objects::equal($ptr->value(), $this->value);
+    if ($ptr->resolves()) {
+      return Objects::equal($ptr->value(), $this->value) ? null : new NotEquals($ptr->value(), $this->value);
+    } else {
+      return new PathDoesNotExist($this->path());
+    }
   }
 
   /** @return string */

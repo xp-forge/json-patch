@@ -25,7 +25,7 @@ class CopyOperationTest extends OperationTest {
     $operation= new CopyOperation(['op' => 'copy', 'from' => '/a/b/c', 'path' => '/a/b/e']);
 
     $value= ['a' => ['b' => ['c' => 'value']]];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
     $this->assertEquals(['a' => ['b' => ['c' => 'value', 'e' => 'value']]], $value);
   }
 }

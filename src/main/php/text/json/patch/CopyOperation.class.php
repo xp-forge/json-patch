@@ -27,9 +27,9 @@ class CopyOperation extends Operation {
 
   public function apply(&$target) {
     $source= $this->pointer($target, $this->from);
+    if (!$source->resolves()) return new PathDoesNotExist('/'.implode('/', $this->from));
     $to= $this->pointer($target, array_slice($this->path, 0, -1));
-
-    if (!$source->resolves() || !$to->resolves()) return false;
+    if (!$to->resolves()) return new PathDoesNotExist($this->path());
 
     // Add
     $key= $this->path[sizeof($this->path) - 1];
@@ -46,7 +46,7 @@ class CopyOperation extends Operation {
       $to->modify($value);
     }
 
-    return true;
+    return null;
   }
 
   /** @return string */

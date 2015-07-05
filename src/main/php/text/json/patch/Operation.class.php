@@ -78,7 +78,7 @@ abstract class Operation extends \lang\Object {
    * Apply this operation to a given target and return whether the operation was successful.
    *
    * @param  var $value
-   * @return bool
+   * @return string Any errors that occurred
    */
   public abstract function apply(&$target);
 }

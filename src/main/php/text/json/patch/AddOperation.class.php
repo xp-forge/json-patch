@@ -36,19 +36,19 @@ class AddOperation extends Operation {
     $ptr= $this->pointer($target, array_slice($this->path, 0, -1));
 
     $address= $ptr->address($this->path[sizeof($this->path) - 1]);
-    if (null === $address) return false;
+    if (null === $address) return new PathDoesNotExist($this->path());
 
     $value= $ptr->value();
-    if (!is_array($value)) return false;
+    if (!is_array($value)) return new PathDoesNotExist($this->path());
 
     if (true === $address) {          // Add to array
       $value[]= $this->value;
       return $ptr->modify($value);
     } else if (is_int($address)) {    // Array offset
-      if ($address < 0 || $address > sizeof($value)) return false;
+      if ($address < 0 || $address > sizeof($value)) return new ArrayIndexOutOfBounds($address);
       return $ptr->modify(array_merge(array_slice($value, 0, $address), [$this->value], array_slice($value, $address)));
     } else {                          // Object member
-      if (0 === key($value)) return false;
+      if (0 === key($value)) return new TypeConflict('Trying to add an object member to an array');
       $value[$address]= $this->value;
       return $ptr->modify($value);
     }

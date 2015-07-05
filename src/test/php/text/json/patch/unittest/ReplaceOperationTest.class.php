@@ -34,7 +34,7 @@ class ReplaceOperationTest extends OperationTest {
     $operation= new ReplaceOperation(['op' => 'replace', 'path' => '/value', 'value' => self::CHANGED]);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
   }
 
   #[@test]
@@ -42,7 +42,7 @@ class ReplaceOperationTest extends OperationTest {
     $operation= new ReplaceOperation(['op' => 'replace', 'path' => '/does-not-exist', 'value' => self::CHANGED]);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertFalse($operation->apply($value));
+    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->apply($value));
   }
 
   #[@test]
@@ -50,6 +50,6 @@ class ReplaceOperationTest extends OperationTest {
     $operation= new ReplaceOperation(['op' => 'replace', 'path' => '/value', 'value' => self::ORIGINAL]);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertTrue($operation->apply($value));
+    $this->assertNull($operation->apply($value));
   }
 }

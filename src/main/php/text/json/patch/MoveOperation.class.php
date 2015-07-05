@@ -27,11 +27,12 @@ class MoveOperation extends Operation {
 
   public function apply(&$target) {
     $from= $this->pointer($target, array_slice($this->from, 0, -1));
-    $to= $this->pointer($target, array_slice($this->path, 0, -1));
 
     $key= $this->from[sizeof($this->from) - 1];
     $source= $from->to($key);
-    if (!$source->resolves() || !$to->resolves()) return false;
+    if (!$source->resolves()) return new PathDoesNotExist('/'.implode('/', $this->from));
+    $to= $this->pointer($target, array_slice($this->path, 0, -1));
+    if (!$to->resolves()) return new PathDoesNotExist($this->path());
 
     // Remove
     $value= $from->value();
@@ -58,7 +59,7 @@ class MoveOperation extends Operation {
       $to->modify($value);
     }
 
-    return true;
+    return null;
   }
 
   /** @return string */

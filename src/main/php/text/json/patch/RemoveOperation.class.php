@@ -23,7 +23,7 @@ class RemoveOperation extends Operation {
         return $ptr->modify($value);
       }
     }
-    return false;
+    return new PathDoesNotExist($this->path());
   }
 
   /** @return string */

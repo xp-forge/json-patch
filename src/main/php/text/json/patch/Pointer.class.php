@@ -58,10 +58,10 @@ class Pointer extends \lang\Object {
    * Modify this pointer
    *
    * @param  var $value
-   * @return bool
+   * @return text.json.patch.Error
    */
   public function modify($value) {
     $this->reference= $value;
-    return true;
+    return null;
   }
 }
