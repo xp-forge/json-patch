@@ -1,7 +1,5 @@
 <?php namespace text\json\patch;
 
-use util\Objects;
-
 /**
  * Indicates failure result
  */
@@ -11,7 +9,7 @@ class Failure extends Results {
   /**
    * Creates a new success instance
    *
-   * @param  var $error
+   * @param  text.json.patch.Error $error
    */
   public function __construct($error) {
     $this->error= $error;
@@ -20,7 +18,7 @@ class Failure extends Results {
   /** @return bool */
   public function successful() { return false; }
 
-  /** @return var */
+  /** @return text.json.patch.Error */
   public function error() { return $this->error; }
 
   /** @return string */
