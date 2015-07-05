@@ -30,7 +30,7 @@ class Pointer extends \lang\Object {
   }
 
   private function address($token) {
-    static $escape= ['~0' => '~', '~1' => '/'];
+    static $escape= ['~1' => '/', '~0' => '~'];
 
     if ('-' === $token) {
       return function($parent) { return new ArrayEnd($parent); };

@@ -10,6 +10,17 @@ class PointerTest extends \unittest\TestCase {
     new Pointer($input);
   }
 
+  #[@test, @values([
+  #  ['/~01', '~1'], ['/~00', '~0'],
+  #  ['/~10', '/0'], ['/~11', '/1'],
+  #  ['/~0~0', '~~'],
+  #  ['/~1~1', '//']
+  #])]
+  public function escaping($escaped, $key) {
+    $value= [$key => 'OK'];
+    $this->assertEquals('OK', (new Pointer($escaped))->resolve($value)->value());
+  }
+
   #[@test]
   public function resolves_non_existant() {
     $value= [];
