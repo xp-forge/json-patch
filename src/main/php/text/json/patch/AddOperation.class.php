@@ -53,4 +53,9 @@ class AddOperation extends Operation {
       return $ptr->modify($value);
     }
   }
+
+  /** @return string */
+  public function toString() {
+    return nameof($this).'(add '.$this->path().' => '.Objects::stringOf($this->value).')';
+  }
 }

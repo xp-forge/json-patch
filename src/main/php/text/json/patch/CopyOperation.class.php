@@ -48,4 +48,9 @@ class CopyOperation extends Operation {
 
     return true;
   }
+
+  /** @return string */
+  public function toString() {
+    return nameof($this).'(copy /'.implode('/', $this->from).' -> '.$this->path().')';
+  }
 }

@@ -28,6 +28,6 @@ class ReplaceOperation extends Operation {
 
   /** @return string */
   public function toString() {
-    return nameof($this).'('.$this->path().' => '.Objects::stringOf($this->value).')';
+    return nameof($this).'(replace '.$this->path().' => '.Objects::stringOf($this->value).')';
   }
 }

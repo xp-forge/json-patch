@@ -60,4 +60,9 @@ class MoveOperation extends Operation {
 
     return true;
   }
+
+  /** @return string */
+  public function toString() {
+    return nameof($this).'(move /'.implode('/', $this->from).' -> '.$this->path().')';
+  }
 }

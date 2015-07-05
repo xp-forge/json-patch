@@ -25,4 +25,9 @@ class RemoveOperation extends Operation {
     }
     return false;
   }
+
+  /** @return string */
+  public function toString() {
+    return nameof($this).'(remove '.$this->path().')';
+  }
 }

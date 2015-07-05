@@ -28,6 +28,6 @@ class TestOperation extends Operation {
 
   /** @return string */
   public function toString() {
-    return nameof($this).'('.$this->path().' == '.Objects::stringOf($this->value).')';
+    return nameof($this).'(test '.$this->path().' == '.Objects::stringOf($this->value).')';
   }
 }
