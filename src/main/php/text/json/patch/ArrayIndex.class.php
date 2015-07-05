@@ -3,7 +3,13 @@
 class ArrayIndex extends Address {
   private $pos;
 
-  public function __construct($pos, $parent) {
+  /**
+   * Creates a array index address
+   *
+   * @param  int $pos
+   * @param  parent $parent
+   */
+  public function __construct($pos, parent $parent) {
     $this->pos= $pos;
     if (is_array($parent->reference) && array_key_exists($this->pos, $parent->reference)) {
       parent::__construct($parent->reference[$this->pos], $parent);

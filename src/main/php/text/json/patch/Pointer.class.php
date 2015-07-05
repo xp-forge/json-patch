@@ -15,6 +15,7 @@ class Pointer extends \lang\Object {
    * Creates a new pointer
    *
    * @param  string $path
+   * @throws lang.IllegalArgumentException
    */
   public function __construct($path) {
     if ('' === $path) {
@@ -29,6 +30,12 @@ class Pointer extends \lang\Object {
     }
   }
 
+  /**
+   * Returns address resolvers 
+   *
+   * @param  string $token
+   * @return function(text.json.patch.Address): text.json.patch.Address
+   */
   private function address($token) {
     static $escape= ['~1' => '/', '~0' => '~'];
 
@@ -59,6 +66,7 @@ class Pointer extends \lang\Object {
     return $address;
   }
 
+  /** @return string */
   public function __toString() {
     if (empty($this->path)) {
       return '';

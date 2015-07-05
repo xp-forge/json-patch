@@ -3,6 +3,12 @@
 class ObjectMember extends Address {
   private $name;
 
+  /**
+   * Creates a new object member address
+   *
+   * @param  string $name
+   * @param  parent $parent
+   */
   public function __construct($name, parent $parent) {
     $this->name= $name;
     if (is_array($parent->reference) && array_key_exists($this->name, $parent->reference)) {

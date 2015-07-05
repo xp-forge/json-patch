@@ -5,9 +5,9 @@ class ArrayEnd extends Address {
   /**
    * Creates a new "end of array" address
    *
-   * @param  self $parent
+   * @param  parent $parent
    */
-  public function __construct($parent) {
+  public function __construct(parent $parent) {
     parent::__construct(self::$null, $parent, false);
   }
 
