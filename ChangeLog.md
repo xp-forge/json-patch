@@ -3,6 +3,8 @@ Data sequences change log
 
 ## ?.?.? / ????-??-??
 
+## 0.2.0 / 2015-07-05
+
 * Made it possible to shorten array by allowing the remove operation in
   conjunction with "-". This is not specified by the RFC, but I've seen
   it implemented [in other places](https://github.com/raphaelstolt/php-jsonpatch/blob/master/tests/integration/Rs/Json/PatchRemoveTest.php).
