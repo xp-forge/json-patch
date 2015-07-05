@@ -9,11 +9,11 @@ JSON Patch
 [![Supports HHVM 3.5+](https://raw.githubusercontent.com/xp-framework/web/master/static/hhvm-3_5plus.png)](http://hhvm.com/)
 [![Latest Stable Version](https://poser.pugx.org/xp-forge/json-patch/version.png)](https://packagist.org/packages/xp-forge/json-patch)
 
-Implements JSON patch documents described in [RFC #6902](http://tools.ietf.org/html/rfc6902).
+Implements JSON patch documents described in [RFC #6902](http://tools.ietf.org/html/rfc6902). See also http://jsonpatch.com/.
 
-Examples
---------
-*See http://jsonpatch.com/:*
+Example: JSON Patch
+-------------------
+The entry point class is `text.json.patch.Changes`:
 
 ```php
 use text\json\patch\Changes;
@@ -38,4 +38,29 @@ $changed= $changes->apply($document);
 //    ['name' => 'Choco Liebniz']
 //  ]
 //];
+```
+
+Example: JSON Pointer
+---------------------
+You can also use the "raw" functionality underneath the `Changes` instance.
+
+```php
+use text\json\patch\Pointer;
+
+$document= [
+  'biscuits' => [
+    ['name' => 'Digestive'],
+    ['name' => 'Choco Liebniz']
+  ]
+];
+
+$pointer= new Pointer('/biscuits/1');
+
+// $pointer->exists() := true
+// $pointer->value() := ['name' => 'Ginger Nut'];
+
+// The following will return NULL on success, an error otherwise
+$pointer->modify('Ginger Nut');
+$pointer->add('Choco Liebniz');
+$pointer->remove();
 ```
