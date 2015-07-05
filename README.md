@@ -61,12 +61,12 @@ $pointer= new Pointer('/biscuits/1');
 
 // This will return an text.json.patch.Applied instance. Use its isError() 
 // method to discover whether an error occurred.
-$pointer->modify('Ginger Nut');
+$result= $pointer->modify('Ginger Nut');
 
 // You can chain calls using the then() method. Closures passed to it will
 // only be invoked if applying the operation succeeds, otheriwse an Error
 // will be returned.
-$pointer->remove()->then(function() use($pointer) {
+$result= $pointer->remove()->then(function() use($pointer) {
   return $pointer->add('Choco Liebniz');
 });
 ```
