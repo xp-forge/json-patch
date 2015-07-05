@@ -37,10 +37,7 @@ class ArrayIndex extends Address {
    */
   public function remove() {
     if ($this->exists) {
-      $this->parent->reference= array_merge(
-        array_slice($this->parent->reference, 0, $this->pos),
-        array_slice($this->parent->reference, $this->pos + 1)
-      );
+      array_splice($this->parent->reference, $this->pos, 1);
       return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
@@ -59,11 +56,7 @@ class ArrayIndex extends Address {
         return new ArrayIndexOutOfBounds($this->pos);
       }
 
-      $this->parent->reference= array_merge(
-        array_slice($this->parent->reference, 0, $this->pos),
-        [$value],
-        array_slice($this->parent->reference, $this->pos)
-      );
+      array_splice($this->parent->reference, $this->pos, 0, [$value]);
       return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
