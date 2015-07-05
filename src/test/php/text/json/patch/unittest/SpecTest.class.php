@@ -33,7 +33,7 @@ class SpecTest extends \unittest\TestCase {
   /** @return var[][] */
   public function specifications() {
     if (null === $this->target) {
-      return [];
+      return;
     } else if (is_file($this->target)) {
       $files= [new FileElement($this->target)];
     } else {
@@ -41,14 +41,12 @@ class SpecTest extends \unittest\TestCase {
     }
 
     // Return an array of argument lists to be passed to specification
-    $r= [];
     foreach ($files as $file) {
       $input= new StreamInput($file->getInputStream());
       foreach ($input->elements() as $i => $test) {
-        $r[]= [isset($test['comment']) ? $test['comment'] : $file->getName().'#'.$i, $test];
+        yield [isset($test['comment']) ? $test['comment'] : $file->getName().'#'.$i, $test];
       }
     }
-    return $r;
   }
 
   #[@test, @values('specifications')]
