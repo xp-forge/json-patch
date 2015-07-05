@@ -28,25 +28,10 @@ class CopyOperation extends Operation {
   public function apply(&$target) {
     $source= $this->pointer($target, $this->from);
     if (!$source->resolves()) return new PathDoesNotExist('/'.implode('/', $this->from));
-    $to= $this->pointer($target, array_slice($this->path, 0, -1));
-    if (!$to->resolves()) return new PathDoesNotExist($this->path());
 
-    // Add
-    $key= $this->path[sizeof($this->path) - 1];
-    $value= $to->value();
-
-    if ('-' === $key) {
-      $value[]= $source->value();
-      $to->modify($value);
-    } else if (is_numeric($key)) {
-      $pos= (int)$key;
-      $to->modify(array_merge(array_slice($value, 0, $pos), [$source->value()], array_slice($value, $pos)));
-    } else {
-      $value[$key]= $source->value();
-      $to->modify($value);
-    }
-
-    return null;
+    $ptr= $this->pointer($target, array_slice($this->path, 0, -1));
+    $address= $ptr->address($this->path[sizeof($this->path) - 1]);
+    return $this->modify($ptr, $address, $source->value());
   }
 
   /** @return string */

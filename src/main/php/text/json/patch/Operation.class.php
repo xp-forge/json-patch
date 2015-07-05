@@ -74,6 +74,27 @@ abstract class Operation extends \lang\Object {
     return $pointer;
   }
 
+  protected function modify($ptr, $address, $value) {
+    if (!$ptr->resolves() || null === $address) return new PathDoesNotExist($this->path());
+
+    $resolved= $ptr->value();
+    if (!is_array($resolved)) return new TypeConflict('Trying to modify non-array');
+
+    if (true === $address) {          // Add to array
+      $resolved[]= $value;
+      return $ptr->modify($resolved);
+    } else if (is_int($address)) {    // Array offset
+      if ($address < 0 || $address > sizeof($resolved)) return new ArrayIndexOutOfBounds($address);
+
+      return $ptr->modify(array_merge(array_slice($resolved, 0, $address), [$value], array_slice($resolved, $address)));
+    } else {                          // Object member
+      if (0 === key($resolved)) return new TypeConflict('Trying to add an object member to an array');
+
+      $resolved[$address]= $value;
+      return $ptr->modify($resolved);
+    }
+  }
+
   /**
    * Apply this operation to a given target and return whether the operation was successful.
    *
