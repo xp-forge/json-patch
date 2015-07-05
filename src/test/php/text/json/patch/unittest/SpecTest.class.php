@@ -61,18 +61,13 @@ class SpecTest extends \unittest\TestCase {
       } catch (IllegalArgumentException $expected) {
         return;  // OK
       }
-      $value= $test['doc'];
-      $changes= $changes->apply($value);
-      $this->assertFalse($changes->successful());
+      $this->assertFalse($changes->apply($test['doc'])->successful());
     } else if (isset($test['expected'])) {
-      $value= $test['doc'];
       $changes= new Changes(...$test['patch']);
-      $actual= $changes->apply($value);
-      $this->assertEquals($test['expected'], $actual->value());
+      $this->assertEquals($test['expected'], $changes->apply($test['doc'])->value());
     } else {
-      $value= $test['doc'];
       $changes= new Changes(...$test['patch']);
-      $changes->apply($value);
+      $this->assertTrue($changes->apply($test['doc'])->successful());
     }
   }
 }
