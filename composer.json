@@ -6,7 +6,7 @@
   "description" : "Implements JSON patch documents described in RFC #6902",
   "keywords": ["module", "xp"],
   "require" : {
-    "xp-framework/core": "~6.0",
+    "xp-framework/core": "^6.3",
     "php" : ">=5.6.0"
   },
   "require-dev" : {
