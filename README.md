@@ -18,6 +18,26 @@ The entry point class is `text.json.patch.Changes`:
 ```php
 use text\json\patch\Changes;
 
+// You can create changes via maps...
+$changes= new Changes(
+  ['op' => 'add', 'path' => '/biscuits/1', 'value' => ['name' => 'Ginger Nut']]
+);
+
+// ...or by using Operation instances
+$changes= new Changes(
+  new AddOperation('/biscuits/1', ['name' => 'Ginger Nut'])
+);
+
+// If you have a JSON patch document, use the spread operator
+$patch= [
+  ['op' => 'add', 'path' => '/biscuits/1', 'value' => ['name' => 'Ginger Nut']]
+];
+$changes= new Changes(...$patch);
+```
+
+To apply the changes, call the `apply()` method and work with the result:
+
+```php
 $document= [
   'biscuits' => [
     ['name' => 'Digestive'],
@@ -25,9 +45,6 @@ $document= [
   ]
 ];
 
-$changes= new Changes(
-  ['op' => 'add', 'path' => '/biscuits/1', 'value' => ['name' => 'Ginger Nut']]
-);
 $changed= $changes->apply($document);
 
 // $changed->successful() := true
