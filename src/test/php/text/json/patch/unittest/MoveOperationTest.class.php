@@ -10,7 +10,7 @@ class MoveOperationTest extends OperationTest {
     $operation= new MoveOperation('/foo/waldo', '/qux/thud');
 
     $value= ['foo' => ['bar' => 'baz', 'waldo' => 'fred'], 'qux' => ['corge' => 'grault']];
-    $this->assertNull($operation->apply($value));
+    $this->assertNull($operation->applyTo($value));
     $this->assertEquals(['foo' => ['bar' => 'baz'], 'qux' => ['corge' => 'grault', 'thud' => 'fred']], $value);
   }
 
@@ -19,7 +19,7 @@ class MoveOperationTest extends OperationTest {
     $operation= new MoveOperation('/foo/1', '/foo/3');
 
     $value= ['foo' => ['all', 'grass', 'cows', 'eat']];
-    $this->assertNull($operation->apply($value));
+    $this->assertNull($operation->applyTo($value));
     $this->assertEquals(['foo' => ['all', 'cows', 'eat', 'grass']], $value);
   }
 }

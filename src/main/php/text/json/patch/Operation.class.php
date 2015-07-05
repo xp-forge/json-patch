@@ -29,5 +29,5 @@ abstract class Operation extends \lang\Object {
    * @param  var $target
    * @return text.json.patch.Error
    */
-  public abstract function apply(&$target);
+  public abstract function applyTo(&$target);
 }

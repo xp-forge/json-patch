@@ -32,7 +32,7 @@ class MoveOperation extends Operation {
    * @param  var $target
    * @return text.json.path.Error
    */
-  public function apply(&$target) {
+  public function applyTo(&$target) {
     $from= $this->from->resolve($target);
     $to= $this->path->resolve($target);
     $value= $from->value();

@@ -10,7 +10,7 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation('/value', self::ORIGINAL);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertNull($operation->apply($value));
+    $this->assertNull($operation->applyTo($value));
   }
 
   #[@test]
@@ -18,7 +18,7 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation('/does-not-exist', null);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->apply($value));
+    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
   #[@test]
@@ -26,6 +26,6 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation('/value', '10');
 
     $value= ['value' => 10];
-    $this->assertInstanceOf('text.json.patch.NotEquals', $operation->apply($value));
+    $this->assertInstanceOf('text.json.patch.NotEquals', $operation->applyTo($value));
   }
 }

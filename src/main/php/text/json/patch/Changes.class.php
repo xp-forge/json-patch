@@ -49,7 +49,7 @@ class Changes extends \lang\Object {
    */
   public function apply($value) {
     foreach ($this->operations as $operation) {
-      $error= $operation->apply($value);
+      $error= $operation->applyTo($value);
       if (null !== $error) return new Failure($error);
     }
     return new Success($value);

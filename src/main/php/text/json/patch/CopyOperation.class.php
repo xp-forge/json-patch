@@ -32,7 +32,7 @@ class CopyOperation extends Operation {
    * @param  var $target
    * @return text.json.path.Error
    */
-  public function apply(&$target) {
+  public function applyTo(&$target) {
     $from= $this->from->resolve($target);
     if ($from->exists()) {
       return $this->path->resolve($target)->add($from->value());

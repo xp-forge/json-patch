@@ -29,7 +29,7 @@ class ReplaceOperation extends Operation {
    * @param  var $target
    * @return text.json.path.Error
    */
-  public function apply(&$target) {
+  public function applyTo(&$target) {
     return $this->path->resolve($target)->modify($this->value);
   }
 
