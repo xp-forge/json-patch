@@ -5,9 +5,26 @@ use text\json\patch\Address;
 
 class PointerTest extends \unittest\TestCase {
 
-  #[@test, @values(['', '/', '/ ', '/foo', '/foo/bar', '/foo/1', '/foo/1/bar', '/foo/bar/1', '/foo/-'])]
+  /** @return var[][] */
+  private function fixtures() {
+    return [
+      [''], ['/'],
+      ['/ '], ['/  '],
+      ['/foo'], ['/foo/bar'],
+      ['/foo/1'], ['/foo/1/bar'], ['/foo/bar/1'],
+      ['/foo/-'],
+      ['/foo/~0'], ['/foo/~1'], ['/foo/~01'], ['/foo/~10']
+    ];
+  }
+
+  #[@test, @values('fixtures')]
   public function can_create($input) {
     new Pointer($input);
+  }
+
+  #[@test, @values('fixtures')]
+  public function string($input) {
+    $this->assertEquals($input, (string)(new Pointer($input)));
   }
 
   #[@test, @values([
