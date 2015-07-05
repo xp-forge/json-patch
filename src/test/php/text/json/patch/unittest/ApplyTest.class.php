@@ -1,7 +1,9 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\Changes;
-use text\json\patch\Results;
+use text\json\patch\Success;
+use text\json\patch\Failure;
+use text\json\patch\PathDoesNotExist;
 
 class ApplyTest extends \unittest\TestCase {
   const ORIGINAL = 42;
@@ -42,7 +44,7 @@ class ApplyTest extends \unittest\TestCase {
     $changes= new Changes(['op' => 'test', 'path' => '/value', 'value' => self::ORIGINAL]);
     $value= ['value' => self::ORIGINAL];
 
-    $this->assertEquals(new Results(true, $value), $changes->apply($value));
+    $this->assertEquals(new Success($value), $changes->apply($value));
   }
 
   #[@test]
@@ -50,6 +52,6 @@ class ApplyTest extends \unittest\TestCase {
     $changes= new Changes(['op' => 'test', 'path' => '/non-existant', 'value' => null]);
     $value= ['value' => self::ORIGINAL];
 
-    $this->assertEquals(new Results(false), $changes->apply($value));
+    $this->assertEquals(new Failure(new PathDoesNotExist('/non-existant')), $changes->apply($value));
   }
 }

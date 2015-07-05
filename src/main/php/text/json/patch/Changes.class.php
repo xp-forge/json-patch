@@ -45,16 +45,13 @@ class Changes extends \lang\Object {
    * Applies this changes to a given value. Stops after first unsuccessfull operation
    *
    * @param  var $value
-   * @param  [:bool] A map with paths as keys and whether a change was performed
+   * @param  text.json.patch.Results
    */
   public function apply($value) {
-    $successful= true;
     foreach ($this->operations as $operation) {
-      if ($successful) {
-        $error= $operation->apply($value);
-        $successful= null === $error || true === $error;
-      }
+      $error= $operation->apply($value);
+      if (null !== $error) return new Failure($error);
     }
-    return new Results($successful, $successful ? $value : null);
+    return new Success($value);
   }
 }
