@@ -12,37 +12,37 @@ abstract class Operations extends \lang\Enum {
   public static $ADD, $REMOVE, $REPLACE, $MOVE, $COPY, $TEST;
 
   static function __static() {
-    self::$ADD= newinstance(__CLASS__, [1, 'ADD'], '{
+    self::$ADD= newinstance(self::class, [1, 'ADD'], '{
       static function __static() { }
       public function newInstance($op) {
         return new AddOperation($this->requires($op, "path"), $this->requires($op, "value"));
       }
     }');
-    self::$REMOVE= newinstance(__CLASS__, [2, 'REMOVE'], '{
+    self::$REMOVE= newinstance(self::class, [2, 'REMOVE'], '{
       static function __static() { }
       public function newInstance($op) {
         return new RemoveOperation($this->requires($op, "path"));
       }
     }');
-    self::$REPLACE= newinstance(__CLASS__, [3, 'REPLACE'], '{
+    self::$REPLACE= newinstance(self::class, [3, 'REPLACE'], '{
       static function __static() { }
       public function newInstance($op) {
         return new ReplaceOperation($this->requires($op, "path"), $this->requires($op, "value"));
       }
     }');
-    self::$MOVE= newinstance(__CLASS__, [4, 'MOVE'], '{
+    self::$MOVE= newinstance(self::class, [4, 'MOVE'], '{
       static function __static() { }
       public function newInstance($op) {
         return new MoveOperation($this->requires($op, "from"), $this->requires($op, "path"));
       }
     }');
-    self::$COPY= newinstance(__CLASS__, [5, 'COPY'], '{
+    self::$COPY= newinstance(self::class, [5, 'COPY'], '{
       static function __static() { }
       public function newInstance($op) {
         return new CopyOperation($this->requires($op, "from"), $this->requires($op, "path"));
       }
     }');
-    self::$TEST= newinstance(__CLASS__, [6, 'TEST'], '{
+    self::$TEST= newinstance(self::class, [6, 'TEST'], '{
       static function __static() { }
       public function newInstance($op) {
         return new TestOperation($this->requires($op, "path"), $this->requires($op, "value"));
@@ -80,6 +80,6 @@ abstract class Operations extends \lang\Enum {
    * @return text.json.patch.Operations
    */
   public static function named($name) {
-    return parent::valueOf(new XPClass(__CLASS__), strtoupper($name));
+    return parent::valueOf(new XPClass(self::class), strtoupper($name));
   }
 }
