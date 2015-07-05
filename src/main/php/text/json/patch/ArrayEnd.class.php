@@ -16,6 +16,12 @@ class ArrayEnd extends Address {
    * @return text.json.patch.Applied
    */
   public function modify($value) {
+    if ($this->parent->exists) {
+      if (array_key_exists('-', $this->parent->reference)) {
+        $this->parent->reference['-']= $value;
+        return Applied::$CLEANLY;
+      }
+    }
     return new ArrayIndexOutOfBounds('-');
   }
 
@@ -25,6 +31,12 @@ class ArrayEnd extends Address {
    * @return text.json.patch.Applied
    */
   public function remove() {
+    if ($this->parent->exists) {
+      if (array_key_exists('-', $this->parent->reference)) {
+        unset($this->parent->reference['-']);
+        return Applied::$CLEANLY;
+      }
+    }
     return new ArrayIndexOutOfBounds('-');
   }
 
@@ -36,8 +48,13 @@ class ArrayEnd extends Address {
    */
   public function add($value) {
     if ($this->parent->exists) {
-      $this->parent->reference[]= $value;
-      return Applied::$CLEANLY;
+      if (empty($this->parent->reference) || 0 === key($this->parent->reference)) {
+        $this->parent->reference[]= $value;
+        return Applied::$CLEANLY;
+      } else {
+        $this->parent->reference['-']= $value;
+        return Applied::$CLEANLY;
+      }
     } else {
       return new PathDoesNotExist($this->path());
     }

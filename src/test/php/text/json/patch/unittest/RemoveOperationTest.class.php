@@ -46,4 +46,13 @@ class RemoveOperationTest extends OperationTest {
     $value= null;
     $this->assertInstanceOf('text.json.patch.TypeConflict', $operation->applyTo($value));
   }
+
+  #[@test]
+  public function dash_has_no_special_meaning_for_non_arrays() {
+    $operation= new RemoveOperation('/-');
+
+    $value= ['-' => 4];
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    $this->assertEquals([], $value);
+  }
 }

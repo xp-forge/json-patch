@@ -17,6 +17,7 @@ The entry point class is `text.json.patch.Changes`:
 
 ```php
 use text\json\patch\Changes;
+use text\json\patch\AddOperation;
 
 // You can create changes via maps...
 $changes= new Changes(

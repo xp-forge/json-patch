@@ -41,11 +41,29 @@ class AddOperationTest extends OperationTest {
   }
 
   #[@test]
+  public function adding_an_array_value_to_an_empty_array() {
+    $operation= new AddOperation('/foo/-', 'bar');
+
+    $value= ['foo' => []];
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    $this->assertEquals(['foo' => ['bar']], $value);
+  }
+
+  #[@test]
   public function add_should_replace_existing_object_member() {
     $operation= new AddOperation('/baz', 'qux');
 
     $value= ['foo' => 'bar', 'baz' => 'bat'];
     $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
     $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $value);
+  }
+
+  #[@test]
+  public function dash_has_no_special_meaning_for_non_arrays() {
+    $operation= new AddOperation('/-', self::CHANGED);
+
+    $value= ['color' => 'green'];
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    $this->assertEquals(['color' => 'green', '-' => self::CHANGED], $value);
   }
 }

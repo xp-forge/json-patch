@@ -46,4 +46,13 @@ class ReplaceOperationTest extends OperationTest {
     $operation->applyTo($value);
     $this->assertEquals(self::CHANGED, $value);
   }
+
+  #[@test]
+  public function dash_has_no_special_meaning_for_non_arrays() {
+    $operation= new ReplaceOperation('/-', self::CHANGED);
+
+    $value= ['-' => self::ORIGINAL];
+    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    $this->assertEquals(['-' => self::CHANGED], $value);
+  }
 }
