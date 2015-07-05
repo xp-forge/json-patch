@@ -1,5 +1,10 @@
 <?php namespace text\json\patch;
 
+/**
+ * Results from operations' applyTo() method call.
+ *
+ * @see  xp://text.json.patch.Operation#applyTo() 
+ */
 abstract class Applied extends \lang\Object {
   public static $CLEANLY;
 
@@ -10,9 +15,15 @@ abstract class Applied extends \lang\Object {
     }');
   }
 
+  /** @return bool */
   public abstract function isError();
 
-  public function then($func) {
-    return $this->isError() ? $this : $func();
+  /**
+   * Executes a given closure if this represents a success.
+   *
+   * @param  function(): text.json.Applied $closure
+   */
+  public function then(callable $closure) {
+    return $this->isError() ? $this : $closure();
   }
 }

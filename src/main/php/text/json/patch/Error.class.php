@@ -4,7 +4,7 @@ abstract class Error extends Applied {
 
   static function __static() { }
 
-  /** @return true */
+  /** @return bool */
   public function isError() { return true; }
 
   /** @return string */
