@@ -8,6 +8,15 @@ use io\collections\FileElement;
 use text\json\StreamInput;
 use lang\IllegalArgumentException;
 
+/**
+ * Tests against specification
+ *
+ * ```sh
+ * $ wget 'https://github.com/json-patch/json-patch-tests/archive/master.zip' -O master.zip
+ * $ unzip master.zip && rm master.zip
+ * $ unittest src/test/php -a json-patch-tests-master/
+ * ```
+ */
 class SpecTest extends \unittest\TestCase {
   protected $target= null;
 
@@ -34,8 +43,8 @@ class SpecTest extends \unittest\TestCase {
     // Return an array of argument lists to be passed to specification
     $r= [];
     foreach ($files as $file) {
-      $spec= (new StreamInput($file->getInputStream()))->read();
-      foreach ($spec as $i => $test) {
+      $input= new StreamInput($file->getInputStream());
+      foreach ($input->elements() as $i => $test) {
         $r[]= [isset($test['comment']) ? $test['comment'] : $file->getName().'#'.$i, $test];
       }
     }
