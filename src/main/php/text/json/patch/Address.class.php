@@ -5,6 +5,13 @@ abstract class Address extends \lang\Object {
   protected $exists, $parent;
   public $reference;
 
+  /**
+   * Creates a new address
+   *
+   * @param  var $reference
+   * @param  self $parent
+   * @param  bool $exists
+   */
   public function __construct(&$reference, $parent= null, $exists= true) {
     $this->reference= &$reference;
     $this->parent= $parent;

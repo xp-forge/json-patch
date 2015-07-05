@@ -19,10 +19,10 @@ class CopyOperation extends Operation {
    * Creates a new test operation
    *
    * @param  string $from The source path
-   * @param  string $path The target path
+   * @param  string $to The target path
    */
-  public function __construct($from, $path) {
-    parent::__construct($path);
+  public function __construct($from, $to) {
+    parent::__construct($to);
     $this->from= new Pointer($from);
   }
 

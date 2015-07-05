@@ -2,6 +2,11 @@
 
 class ArrayEnd extends Address {
 
+  /**
+   * Creates a new "end of array" address
+   *
+   * @param  self $parent
+   */
   public function __construct($parent) {
     parent::__construct(self::$null, $parent, false);
   }
