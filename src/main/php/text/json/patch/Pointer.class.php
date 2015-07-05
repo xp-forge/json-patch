@@ -1,5 +1,11 @@
 <?php namespace text\json\patch;
 
+/**
+ * A pointer segment in a JSON pointer 
+ *
+ * @see   http://tools.ietf.org/html/rfc6901
+ * @test  xp://text.json.patch.unittest.PointerTest
+ */
 class Pointer extends \lang\Object {
   protected $reference;
 
@@ -7,35 +13,38 @@ class Pointer extends \lang\Object {
     $this->reference= &$reference;
   }
 
-  public function address($address) {
-    if ('-' === $address) {
+  /**
+   * Gets an address
+   *
+   * @param  string $address
+   * @return var TRUE if the special "-" token is given, ints for numeric tokens, strings otherwise
+   */
+  public function address($token) {
+    static $escape= ['~0' => '~', '~1' => '/'];
+
+    if ('-' === $token) {
       return true;
-    } else if ('' === $address) {
+    } else if ('' === $token) {
       return '';
     } else {
+      $address= strtr($token, $escape);
       $number= sscanf($address, '%d%s', $pos, $rest);
-      if (0 === $number) {
-        return $address;
-      } else if (1 === $number) {
-        return $pos;
-      } else {
-        return null;
-      }
+      return 1 === $number ? $pos : $address;
     }
   }
 
   /**
    * Get a new pointer to an address inside this pointer
    *
-   * @param  string $address
+   * @param  string $token
    * @return bool
    */
-  public function to($address) {
-    $key= $this->address($address);
+  public function to($token) {
+    $key= $this->address($token);
     if (array_key_exists($key, $this->reference)) {
       return new self($this->reference[$key]);
     } else {
-      return new NullPointer($address);
+      return new NullPointer($token);
     }
   }
 
