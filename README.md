@@ -17,20 +17,24 @@ The entry point class is `text.json.patch.Changes`:
 
 ```php
 use text\json\patch\Changes;
+use text\json\patch\TestOperation;
 use text\json\patch\AddOperation;
 
 // You can create changes via maps...
 $changes= new Changes(
+  ['op' => 'test', 'path' => '/best', 'value' => 'Choco Liebniz'],
   ['op' => 'add', 'path' => '/biscuits/1', 'value' => ['name' => 'Ginger Nut']]
 );
 
 // ...or by using Operation instances
 $changes= new Changes(
+  new TestOperation('/best', 'Choco Liebniz'),
   new AddOperation('/biscuits/1', ['name' => 'Ginger Nut'])
 );
 
 // If you have a JSON patch document, use the spread operator
 $patch= [
+  ['op' => 'test', 'path' => '/best', 'value' => 'Choco Liebniz'],
   ['op' => 'add', 'path' => '/biscuits/1', 'value' => ['name' => 'Ginger Nut']]
 ];
 $changes= new Changes(...$patch);
