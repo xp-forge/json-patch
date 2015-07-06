@@ -53,6 +53,7 @@ To apply the changes, call the `apply()` method and work with the result:
 
 ```php
 $document= [
+  'best' => 'Choco Liebniz',
   'biscuits' => [
     ['name' => 'Digestive'],
     ['name' => 'Choco Liebniz']
@@ -63,6 +64,7 @@ $changed= $changes->apply($document);
 
 // $changed->successful() := true
 // $changed->value() := [
+//  'best' => 'Choco Liebniz',
 //  'biscuits' => [
 //    ['name' => 'Digestive'],
 //    ['name' => 'Ginger Nut'],
