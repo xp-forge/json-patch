@@ -3,6 +3,10 @@ Data sequences change log
 
 ## ?.?.? / ????-??-??
 
+## 1.0.0 / 2016-02-22
+
+* Added version compatibility with XP 7 - @thekid
+
 ## 0.3.0 / 2015-07-05
 
 * Code quality assurance: Add api documentation where missing
