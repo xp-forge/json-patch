@@ -1,6 +1,6 @@
 <?php namespace text\json\patch;
 
-abstract class Address extends \lang\Object {
+abstract class Address {
   protected static $null= null;
   protected $exists, $parent;
   public $reference;

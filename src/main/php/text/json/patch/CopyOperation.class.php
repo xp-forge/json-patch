@@ -1,5 +1,7 @@
 <?php namespace text\json\patch;
 
+use util\Objects;
+
 /**
  * The "copy" operation copies the value at a specified location to the
  * target location.
@@ -41,6 +43,11 @@ class CopyOperation extends Operation {
   }
 
   /** @return string */
+  public function hashCode() {
+    return 'C'.Objects::hashOf($this->path.$this->value);
+  }
+
+  /** @return string */
   public function toString() {
     return nameof($this).'(copy '.$this->from.' -> '.$this->path.')';
   }
@@ -48,10 +55,13 @@ class CopyOperation extends Operation {
   /**
    * Returns whether a given value is equal to this results instance
    *
-   * @param  var $cmp
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return $cmp instanceof self && $this->path->equals($cmp->path) && $this->from->equals($cmp->from);
+  public function compareTo($value) {
+    return $value instanceof self
+      ? Objects::compare([$this->path, $this->from], [$value->path, $value->from])
+      : 1
+    ;
   }
 }

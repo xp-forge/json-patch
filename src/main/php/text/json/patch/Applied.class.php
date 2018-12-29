@@ -5,7 +5,7 @@
  *
  * @see  xp://text.json.patch.Operation#applyTo() 
  */
-abstract class Applied extends \lang\Object {
+abstract class Applied {
   public static $CLEANLY;
 
   static function __static() {

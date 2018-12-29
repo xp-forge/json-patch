@@ -7,7 +7,7 @@
  * @test  xp://text.json.patch.unittest.ChangesTest
  * @test  xp://text.json.patch.unittest.ApplyTest
  */
-class Changes extends \lang\Object {
+class Changes {
   private $operations= [];
 
   /**

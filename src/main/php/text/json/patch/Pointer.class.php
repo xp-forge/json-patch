@@ -1,6 +1,7 @@
 <?php namespace text\json\patch;
 
 use lang\IllegalArgumentException;
+use lang\Value;
 
 /**
  * A pointer segment in a JSON pointer 
@@ -8,7 +9,7 @@ use lang\IllegalArgumentException;
  * @see   http://tools.ietf.org/html/rfc6901
  * @test  xp://text.json.patch.unittest.PointerTest
  */
-class Pointer extends \lang\Object {
+class Pointer implements Value {
   protected $path;
 
   /**
@@ -79,13 +80,19 @@ class Pointer extends \lang\Object {
     }
   }
 
+  /** @return string */
+  public function hashCode() { return $this->__toString(); }
+
+  /** @return string */
+  public function toString() { return nameof($this).'('.$this->__toString().')'; }
+
   /**
-   * Returns whether a given value is equal to this results instance
+   * Comparison
    *
    * @param  var $cmp
    * @return bool
    */
-  public function equals($cmp) {
-    return $cmp instanceof self && $this->__toString() === $cmp->__toString();
+  public function compareTo($value) {
+    return $value instanceof self ? strcmp($this->__toString(), $value->__toString()) : 1;
   }
 }

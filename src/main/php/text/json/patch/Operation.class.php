@@ -1,5 +1,7 @@
 <?php namespace text\json\patch;
 
+use lang\Value;
+
 /**
  * Operation objects MUST have exactly one "op" member, whose value
  * indicates the operation to perform.  Its value MUST be one of "add",
@@ -8,7 +10,7 @@
  *
  * @see   xp://text.json.Operations
  */
-abstract class Operation extends \lang\Object {
+abstract class Operation implements Value {
   protected $path;
 
   /**

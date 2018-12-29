@@ -1,11 +1,11 @@
 <?php namespace text\json\patch;
 
-use util\Objects;
+use lang\Value;
 
 /**
  * Holds results from `Changes::apply()`.
  */
-abstract class Results extends \lang\Object {
+abstract class Results implements Value {
 
   /** @return bool */
   public abstract function successful();

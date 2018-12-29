@@ -41,6 +41,11 @@ class AddOperation extends Operation {
   }
 
   /** @return string */
+  public function hashCode() {
+    return 'A'.Objects::hashOf($this->path.$this->value);
+  }
+
+  /** @return string */
   public function toString() {
     return nameof($this).'(add '.$this->path.' => '.Objects::stringOf($this->value).')';
   }
@@ -48,10 +53,13 @@ class AddOperation extends Operation {
   /**
    * Returns whether a given value is equal to this results instance
    *
-   * @param  var $cmp
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return $cmp instanceof self && $this->path->equals($cmp->path) && Objects::equal($this->value, $cmp->value);
+  public function compareTo($value) {
+    return $value instanceof self
+      ? Objects::compare($this->path, $value->path)
+      : 1
+    ;
   }
 }

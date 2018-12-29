@@ -24,17 +24,22 @@ class Success extends Results {
   public function value() { return $this->value; }
 
   /** @return string */
+  public function hashCode() {
+    return '+'.Objects::hashOf($this->value);
+  }
+
+  /** @return string */
   public function toString() {
     return nameof($this).'(success  -> '.Objects::stringOf($this->value).')';
   }
 
   /**
-   * Returns whether a given value is equal to this results instance
+   * Comparison
    *
-   * @param  var $cmp
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return $cmp instanceof self && Objects::equal($this->value, $cmp->value);
+  public function compareTo($value) {
+    return $value instanceof self ? Objects::compare($this->value, $value->value) : 1;
   }
 }
