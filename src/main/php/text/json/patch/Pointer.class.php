@@ -46,10 +46,12 @@ class Pointer implements Value {
       return function($parent) { return new ObjectMember('', $parent); };
     } else {
       $member= strtr($token, $escape);
-      return 1 === sscanf($member, '%d%s', $pos, $rest)
-        ? function($parent) use($pos) { return new ArrayIndex($pos, $parent); }
-        : function($parent) use($member) { return new ObjectMember($member, $parent); }
-      ;
+      if (preg_match('/^([0-9]|1[0-9]+)$/', $member)) {
+        $pos= (int)$member;
+        return function($parent) use($pos) { return new ArrayIndex($pos, $parent); };
+      } else {
+        return function($parent) use($member) { return new ObjectMember($member, $parent); };
+      }
     }
   }
 
