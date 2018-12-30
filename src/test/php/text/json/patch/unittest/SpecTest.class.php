@@ -1,12 +1,13 @@
 <?php namespace text\json\patch\unittest;
 
-use text\json\patch\Changes;
-use io\collections\iterate\ExtensionEqualsFilter;
-use io\collections\iterate\FilteredIOCollectionIterator;
 use io\collections\FileCollection;
 use io\collections\FileElement;
-use text\json\StreamInput;
+use io\collections\iterate\FilteredIOCollectionIterator;
+use io\collections\iterate\NameMatchesFilter;
 use lang\IllegalArgumentException;
+use text\json\StreamInput;
+use text\json\patch\Changes;
+use unittest\TestCase;
 
 /**
  * Tests against specification
@@ -14,11 +15,11 @@ use lang\IllegalArgumentException;
  * ```sh
  * $ wget 'https://github.com/json-patch/json-patch-tests/archive/master.zip' -O master.zip
  * $ unzip master.zip && rm master.zip
- * $ unittest src/test/php -a json-patch-tests-master/
+ * $ xp test src/test/php -a json-patch-tests-master/
  * ```
  */
-class SpecTest extends \unittest\TestCase {
-  protected $target= null;
+class SpecTest extends TestCase {
+  private $target;
 
   /**
    * Constructor
@@ -37,7 +38,10 @@ class SpecTest extends \unittest\TestCase {
     } else if (is_file($this->target)) {
       $files= [new FileElement($this->target)];
     } else {
-      $files= new FilteredIOCollectionIterator(new FileCollection($this->target), new ExtensionEqualsFilter('json'));
+      $files= new FilteredIOCollectionIterator(
+        new FileCollection($this->target),
+        new NameMatchesFilter('/tests\.json$/')
+      );
     }
 
     // Return an array of argument lists to be passed to specification
