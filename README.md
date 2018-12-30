@@ -16,9 +16,7 @@ Example: JSON Patch
 The entry point class is `text.json.patch.Changes`:
 
 ```php
-use text\json\patch\Changes;
-use text\json\patch\TestOperation;
-use text\json\patch\AddOperation;
+use text\json\patch\{Changes, TestOperation, AddOperation};
 
 // You can create changes via maps...
 $changes= new Changes(
@@ -97,7 +95,7 @@ $pointer= new Pointer('/biscuits/1');
 $result= $pointer->modify('Ginger Nut');
 
 // You can chain calls using the then() method. Closures passed to it will
-// only be invoked if applying the operation succeeds, otheriwse an Error
+// only be invoked if applying the operation succeeds, otherwise an Error
 // will be returned.
 $result= $pointer->remove()->then(function() use($pointer) {
   return $pointer->add('Choco Liebniz');
