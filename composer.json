@@ -12,7 +12,7 @@
   "require-dev" : {
     "xp-framework/unittest": "^9.0 | ^8.0 | ^7.0 | ^6.5",
     "xp-framework/io-collections": "^8.0 | ^7.0 | ^6.5",
-    "xp-forge/json": "^3.0 | ^2.0",
+    "xp-forge/json": "^3.0 | ^2.0"
   },
   "autoload" : {
     "files" : ["src/main/php/autoload.php"]
