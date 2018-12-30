@@ -3,6 +3,10 @@ Data sequences change log
 
 ## ?.?.? / ????-??-??
 
+## 1.1.0 / 2018-12-30
+
+* Merged PR #1: Make compatible with newer XP / PHP versions - @thekid
+
 ## 1.0.0 / 2016-02-22
 
 * Added version compatibility with XP 7 - @thekid
