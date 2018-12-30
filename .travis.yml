@@ -25,4 +25,3 @@ before_script:
 
 script:
   - sh xp-run xp.unittest.TestRunner src/test/php -a json-patch-tests-master/
-  - sh xp-run xp.measure.Runner lang.mirrors.performance.ClassParsingPerformance -n 100
