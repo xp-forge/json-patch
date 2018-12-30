@@ -30,7 +30,7 @@ class Failure extends Results {
 
   /** @return string */
   public function toString() {
-    return nameof($this).'(failure  -> '.$this->error->message().')';
+    return nameof($this).'(failure -> '.$this->error->message().')';
   }
 
   /**
@@ -40,6 +40,6 @@ class Failure extends Results {
    * @return int
    */
   public function compareTo($value) {
-    return $value instanceof self ? Objects::compare($this->error, $value->error) : 1;
+    return $value instanceof self ? Objects::compare($this->error->message(), $value->error->message()) : 1;
   }
 }
