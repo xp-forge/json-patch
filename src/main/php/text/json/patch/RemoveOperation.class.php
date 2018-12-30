@@ -1,5 +1,7 @@
 <?php namespace text\json\patch;
 
+use util\Objects;
+
 /**
  * The "remove" operation removes the value at the target location.
  * The target location MUST exist for the operation to be successful.
@@ -19,6 +21,11 @@ class RemoveOperation extends Operation {
   }
 
   /** @return string */
+  public function hashCode() {
+    return 'R'.Objects::hashOf($this->path);
+  }
+
+  /** @return string */
   public function toString() {
     return nameof($this).'(remove '.$this->path.')';
   }
@@ -26,10 +33,13 @@ class RemoveOperation extends Operation {
   /**
    * Returns whether a given value is equal to this results instance
    *
-   * @param  var $cmp
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return $cmp instanceof self && $this->path->equals($cmp->path);
+  public function compareTo($value) {
+    return $value instanceof self
+      ? Objects::compare($this->path, $value->path)
+      : 1
+    ;
   }
 }

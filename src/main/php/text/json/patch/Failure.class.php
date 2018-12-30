@@ -1,5 +1,7 @@
 <?php namespace text\json\patch;
 
+use util\Objects;
+
 /**
  * Indicates failure result
  */
@@ -22,17 +24,22 @@ class Failure extends Results {
   public function error() { return $this->error; }
 
   /** @return string */
+  public function hashCode() {
+    return '-'.Objects::hashOf($this->value);
+  }
+
+  /** @return string */
   public function toString() {
-    return nameof($this).'(failure  -> '.$this->error->message().')';
+    return nameof($this).'(failure -> '.$this->error->message().')';
   }
 
   /**
-   * Returns whether a given error is equal to this results instance
+   * Comparison
    *
-   * @param  var $cmp
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return $cmp instanceof self && $this->error->equals($cmp->error);
+  public function compareTo($value) {
+    return $value instanceof self ? Objects::compare($this->error, $value->error) : 1;
   }
 }

@@ -1,6 +1,8 @@
 <?php namespace text\json\patch;
 
-abstract class Error extends Applied {
+use lang\Value;
+
+abstract class Error extends Applied implements Value {
 
   static function __static() { }
 
@@ -11,6 +13,11 @@ abstract class Error extends Applied {
   public abstract function message();
 
   /** @return string */
+  public function hashCode() {
+    return 'E'.md5($this->message());
+  }
+
+  /** @return string */
   public function toString() {
     return nameof($this).'('.$this->message().')';
   }
@@ -18,10 +25,10 @@ abstract class Error extends Applied {
   /**
    * Returns whether a given error is equal to this results instance
    *
-   * @param  var $cmp
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return $cmp instanceof self && $this->message() === $cmp->message();
+  public function compareTo($value) {
+    return $value instanceof self ? strcmp($this->message(), $value->message()) : 1;
   }
 }
