@@ -1,5 +1,5 @@
-Data sequences change log
-=========================
+JSON patch change log
+=====================
 
 ## ?.?.? / ????-??-??
 
