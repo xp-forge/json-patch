@@ -9,10 +9,10 @@ abstract class Applied {
   public static $CLEANLY;
 
   static function __static() {
-    self::$CLEANLY= newinstance(self::class, [], '{
+    self::$CLEANLY= new class() extends Applied {
       static function __static() { }
       public function isError() { return false; }
-    }');
+    };
   }
 
   /** @return bool */

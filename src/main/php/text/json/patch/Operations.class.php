@@ -1,52 +1,52 @@
 <?php namespace text\json\patch;
 
-use lang\{IllegalArgumentException, XPClass};
+use lang\{Enum, IllegalArgumentException, XPClass};
 
 /**
  * Operations factory
  *
  * @test  xp://text.json.patch.unittest.OperationsTest
  */
-abstract class Operations extends \lang\Enum {
+abstract class Operations extends Enum {
   public static $ADD, $REMOVE, $REPLACE, $MOVE, $COPY, $TEST;
 
   static function __static() {
-    self::$ADD= newinstance(self::class, [1, 'ADD'], '{
+    self::$ADD= new class(1, 'ADD') extends Operations {
       static function __static() { }
       public function newInstance($op) {
-        return new AddOperation($this->requires($op, "path"), $this->requires($op, "value"));
+        return new AddOperation($this->requires($op, 'path'), $this->requires($op, 'value'));
       }
-    }');
-    self::$REMOVE= newinstance(self::class, [2, 'REMOVE'], '{
+    };
+    self::$REMOVE= new class(2, 'REMOVE') extends Operations {
       static function __static() { }
       public function newInstance($op) {
-        return new RemoveOperation($this->requires($op, "path"));
+        return new RemoveOperation($this->requires($op, 'path'));
       }
-    }');
-    self::$REPLACE= newinstance(self::class, [3, 'REPLACE'], '{
+    };
+    self::$REPLACE= new class(3, 'REPLACE') extends Operations {
       static function __static() { }
       public function newInstance($op) {
-        return new ReplaceOperation($this->requires($op, "path"), $this->requires($op, "value"));
+        return new ReplaceOperation($this->requires($op, 'path'), $this->requires($op, 'value'));
       }
-    }');
-    self::$MOVE= newinstance(self::class, [4, 'MOVE'], '{
+    };
+    self::$MOVE= new class(4, 'MOVE') extends Operations {
       static function __static() { }
       public function newInstance($op) {
-        return new MoveOperation($this->requires($op, "from"), $this->requires($op, "path"));
+        return new MoveOperation($this->requires($op, 'from'), $this->requires($op, 'path'));
       }
-    }');
-    self::$COPY= newinstance(self::class, [5, 'COPY'], '{
+    };
+    self::$COPY= new class(5, 'COPY') extends Operations {
       static function __static() { }
       public function newInstance($op) {
-        return new CopyOperation($this->requires($op, "from"), $this->requires($op, "path"));
+        return new CopyOperation($this->requires($op, 'from'), $this->requires($op, 'path'));
       }
-    }');
-    self::$TEST= newinstance(self::class, [6, 'TEST'], '{
+    };
+    self::$TEST= new class(6, 'TEST') extends Operations {
       static function __static() { }
       public function newInstance($op) {
-        return new TestOperation($this->requires($op, "path"), $this->requires($op, "value"));
+        return new TestOperation($this->requires($op, 'path'), $this->requires($op, 'value'));
       }
-    }');
+    };
   }
 
   /**
