@@ -1,7 +1,6 @@
 <?php namespace text\json\patch\unittest;
 
-use text\json\patch\Pointer;
-use text\json\patch\Address;
+use text\json\patch\{Address, Pointer};
 
 class PointerTest extends \unittest\TestCase {
 

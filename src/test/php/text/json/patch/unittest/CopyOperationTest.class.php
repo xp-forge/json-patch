@@ -1,7 +1,6 @@
 <?php namespace text\json\patch\unittest;
 
-use text\json\patch\CopyOperation;
-use text\json\patch\Applied;
+use text\json\patch\{Applied, CopyOperation};
 
 class CopyOperationTest extends OperationTest {
 

@@ -1,7 +1,6 @@
 <?php namespace text\json\patch;
 
-use lang\IllegalArgumentException;
-use lang\Value;
+use lang\{IllegalArgumentException, Value};
 
 /**
  * A pointer segment in a JSON pointer 

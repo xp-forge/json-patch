@@ -1,7 +1,6 @@
 <?php namespace text\json\patch;
 
-use lang\XPClass;
-use lang\IllegalArgumentException;
+use lang\{IllegalArgumentException, XPClass};
 
 /**
  * Operations factory

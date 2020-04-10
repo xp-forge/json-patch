@@ -1,7 +1,6 @@
 <?php namespace text\json\patch\unittest;
 
-use text\json\patch\AddOperation;
-use text\json\patch\Applied;
+use text\json\patch\{AddOperation, Applied};
 
 class AddOperationTest extends OperationTest {
 

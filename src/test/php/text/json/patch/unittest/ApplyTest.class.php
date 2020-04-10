@@ -1,9 +1,6 @@
 <?php namespace text\json\patch\unittest;
 
-use text\json\patch\Changes;
-use text\json\patch\Success;
-use text\json\patch\Failure;
-use text\json\patch\PathDoesNotExist;
+use text\json\patch\{Changes, Failure, PathDoesNotExist, Success};
 
 class ApplyTest extends \unittest\TestCase {
   const ORIGINAL = 42;

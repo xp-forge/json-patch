@@ -1,7 +1,6 @@
 <?php namespace text\json\patch\unittest;
 
-use text\json\patch\Changes;
-use text\json\patch\TestOperation;
+use text\json\patch\{Changes, TestOperation};
 
 class ChangesTest extends \unittest\TestCase {
 

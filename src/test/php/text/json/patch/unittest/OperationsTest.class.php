@@ -1,13 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use lang\IllegalArgumentException;
-use text\json\patch\AddOperation;
-use text\json\patch\CopyOperation;
-use text\json\patch\MoveOperation;
-use text\json\patch\Operations;
-use text\json\patch\RemoveOperation;
-use text\json\patch\ReplaceOperation;
-use text\json\patch\TestOperation;
+use text\json\patch\{AddOperation, CopyOperation, MoveOperation, Operations, RemoveOperation, ReplaceOperation, TestOperation};
 
 class OperationsTest extends \unittest\TestCase {
 

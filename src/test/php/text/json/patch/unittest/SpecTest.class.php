@@ -1,9 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
-use io\collections\FileCollection;
-use io\collections\FileElement;
-use io\collections\iterate\FilteredIOCollectionIterator;
-use io\collections\iterate\NameMatchesFilter;
+use io\collections\{FileCollection, FileElement};
+use io\collections\iterate\{FilteredIOCollectionIterator, NameMatchesFilter};
 use lang\IllegalArgumentException;
 use text\json\StreamInput;
 use text\json\patch\Changes;

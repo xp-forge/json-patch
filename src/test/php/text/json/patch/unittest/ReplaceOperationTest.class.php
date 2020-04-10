@@ -1,7 +1,6 @@
 <?php namespace text\json\patch\unittest;
 
-use text\json\patch\ReplaceOperation;
-use text\json\patch\Applied;
+use text\json\patch\{Applied, ReplaceOperation};
 
 class ReplaceOperationTest extends OperationTest {
 
