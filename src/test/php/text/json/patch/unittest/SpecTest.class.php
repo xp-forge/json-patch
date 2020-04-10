@@ -1,7 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
-use io\collections\{FileCollection, FileElement};
 use io\collections\iterate\{FilteredIOCollectionIterator, NameMatchesFilter};
+use io\collections\{FileCollection, FileElement};
 use lang\IllegalArgumentException;
 use text\json\StreamInput;
 use text\json\patch\Changes;
@@ -46,7 +46,7 @@ class SpecTest extends TestCase {
     foreach ($files as $file) {
       $input= new StreamInput($file->getInputStream());
       foreach ($input->elements() as $i => $test) {
-        yield [isset($test['comment']) ? $test['comment'] : $file->getName().'#'.$i, $test];
+        yield [$test['comment'] ?? $file->getName().'#'.$i, $test];
       }
     }
   }
