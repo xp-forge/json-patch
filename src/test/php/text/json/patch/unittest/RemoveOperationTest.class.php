@@ -1,10 +1,11 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Applied, RemoveOperation};
+use unittest\Test;
 
 class RemoveOperationTest extends OperationTest {
 
-  #[@test]
+  #[Test]
   public function removing_an_object_member() {
     $operation= new RemoveOperation('/baz');
 
@@ -13,7 +14,7 @@ class RemoveOperationTest extends OperationTest {
     $this->assertEquals(['foo' => 'bar'], $value);
   }
 
-  #[@test]
+  #[Test]
   public function removing_an_array_element() {
     $operation= new RemoveOperation('/foo/1');
 
@@ -22,7 +23,7 @@ class RemoveOperationTest extends OperationTest {
     $this->assertEquals(['foo' => ['bar', 'baz']], $value);
   }
 
-  #[@test]
+  #[Test]
   public function removing_non_existant_object_member_fails() {
     $operation= new RemoveOperation('/baz');
 
@@ -30,7 +31,7 @@ class RemoveOperationTest extends OperationTest {
     $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
-  #[@test]
+  #[Test]
   public function removing_non_existant_array_index_fails() {
     $operation= new RemoveOperation('/foo/1');
 
@@ -38,7 +39,7 @@ class RemoveOperationTest extends OperationTest {
     $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
-  #[@test]
+  #[Test]
   public function cannot_remove_whole_document() {
     $operation= new RemoveOperation('');
 
@@ -46,7 +47,7 @@ class RemoveOperationTest extends OperationTest {
     $this->assertInstanceOf('text.json.patch.TypeConflict', $operation->applyTo($value));
   }
 
-  #[@test]
+  #[Test]
   public function dash_has_no_special_meaning_for_non_arrays() {
     $operation= new RemoveOperation('/-');
 
@@ -55,7 +56,7 @@ class RemoveOperationTest extends OperationTest {
     $this->assertEquals([], $value);
   }
 
-  #[@test]
+  #[Test]
   public function shorten_array() {
     $operation= new RemoveOperation('/-');
 

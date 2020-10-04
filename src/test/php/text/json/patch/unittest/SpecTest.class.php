@@ -5,7 +5,7 @@ use io\collections\{FileCollection, FileElement};
 use lang\IllegalArgumentException;
 use text\json\StreamInput;
 use text\json\patch\Changes;
-use unittest\TestCase;
+use unittest\{Test, TestCase, Values};
 
 /**
  * Tests against specification
@@ -51,7 +51,7 @@ class SpecTest extends TestCase {
     }
   }
 
-  #[@test, @values('specifications')]
+  #[Test, Values('specifications')]
   public function specification_met($name, $test) {
     if (isset($test['disabled'])) {
       $this->skip('Disabed');

@@ -1,10 +1,11 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{AddOperation, Applied};
+use unittest\Test;
 
 class AddOperationTest extends OperationTest {
 
-  #[@test]
+  #[Test]
   public function adding_an_object_member() {
     $operation= new AddOperation('/baz', 'qux');
 
@@ -13,7 +14,7 @@ class AddOperationTest extends OperationTest {
     $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $value);
   }
 
-  #[@test]
+  #[Test]
   public function adding_an_array_element() {
     $operation= new AddOperation('/foo/1', 'qux');
 
@@ -22,7 +23,7 @@ class AddOperationTest extends OperationTest {
     $this->assertEquals(['foo' => ['bar', 'qux', 'baz']], $value);
   }
 
-  #[@test]
+  #[Test]
   public function adding_to_a_nonexistent_target() {
     $operation= new AddOperation('/baz/bat', 'qux');
 
@@ -30,7 +31,7 @@ class AddOperationTest extends OperationTest {
     $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
-  #[@test]
+  #[Test]
   public function adding_an_array_value() {
     $operation= new AddOperation('/foo/-', ['abc', 'def']);
 
@@ -39,7 +40,7 @@ class AddOperationTest extends OperationTest {
     $this->assertEquals(['foo' => ['bar', ['abc', 'def']]], $value);
   }
 
-  #[@test]
+  #[Test]
   public function adding_an_array_value_to_an_empty_array() {
     $operation= new AddOperation('/foo/-', 'bar');
 
@@ -48,7 +49,7 @@ class AddOperationTest extends OperationTest {
     $this->assertEquals(['foo' => ['bar']], $value);
   }
 
-  #[@test]
+  #[Test]
   public function add_should_replace_existing_object_member() {
     $operation= new AddOperation('/baz', 'qux');
 
@@ -57,7 +58,7 @@ class AddOperationTest extends OperationTest {
     $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $value);
   }
 
-  #[@test]
+  #[Test]
   public function dash_has_no_special_meaning_for_non_arrays() {
     $operation= new AddOperation('/-', self::CHANGED);
 

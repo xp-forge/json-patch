@@ -1,10 +1,11 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Applied, MoveOperation};
+use unittest\Test;
 
 class MoveOperationTest extends OperationTest {
 
-  #[@test]
+  #[Test]
   public function moving_a_value() {
     $operation= new MoveOperation('/foo/waldo', '/qux/thud');
 
@@ -13,7 +14,7 @@ class MoveOperationTest extends OperationTest {
     $this->assertEquals(['foo' => ['bar' => 'baz'], 'qux' => ['corge' => 'grault', 'thud' => 'fred']], $value);
   }
 
-  #[@test]
+  #[Test]
   public function moving_an_array_element() {
     $operation= new MoveOperation('/foo/1', '/foo/3');
 
@@ -22,7 +23,7 @@ class MoveOperationTest extends OperationTest {
     $this->assertEquals(['foo' => ['all', 'cows', 'eat', 'grass']], $value);
   }
 
-  #[@test]
+  #[Test]
   public function moving_to_end_of_array() {
     $operation= new MoveOperation('/foo/1', '/foo/-');
 

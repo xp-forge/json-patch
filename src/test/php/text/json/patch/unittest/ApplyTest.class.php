@@ -1,12 +1,13 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Changes, Failure, PathDoesNotExist, Success};
+use unittest\Test;
 
 class ApplyTest extends \unittest\TestCase {
   const ORIGINAL = 42;
   const CHANGED = 6100;
 
-  #[@test]
+  #[Test]
   public function apply_replacement() {
     $changes= new Changes(['op' => 'replace', 'path' => '/value', 'value' => self::CHANGED]);
     $value= ['value' => self::ORIGINAL];
@@ -14,7 +15,7 @@ class ApplyTest extends \unittest\TestCase {
     $this->assertEquals(['value' => self::CHANGED], $changes->apply($value)->value());
   }
 
-  #[@test]
+  #[Test]
   public function apply_replacement_if_test_succeeds() {
     $changes= new Changes(
       ['op' => 'test', 'path' => '/value', 'value' => self::ORIGINAL],
@@ -25,7 +26,7 @@ class ApplyTest extends \unittest\TestCase {
     $this->assertEquals(['value' => self::CHANGED], $changes->apply($value)->value());
   }
 
-  #[@test]
+  #[Test]
   public function apply_replacement_only_if_test_succeeds() {
     $changes= new Changes(
       ['op' => 'test', 'path' => '/non-existant', 'value' => null],
@@ -36,7 +37,7 @@ class ApplyTest extends \unittest\TestCase {
     $this->assertFalse($changes->apply($value)->successful());
   }
 
-  #[@test]
+  #[Test]
   public function apply_returns_success() {
     $changes= new Changes(['op' => 'test', 'path' => '/value', 'value' => self::ORIGINAL]);
     $value= ['value' => self::ORIGINAL];
@@ -44,7 +45,7 @@ class ApplyTest extends \unittest\TestCase {
     $this->assertEquals(new Success($value), $changes->apply($value));
   }
 
-  #[@test]
+  #[Test]
   public function apply_returns_failure() {
     $changes= new Changes(['op' => 'test', 'path' => '/non-existant', 'value' => null]);
     $value= ['value' => self::ORIGINAL];

@@ -1,28 +1,32 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Changes, TestOperation};
+use unittest\{Test, TestCase, Values};
 
-class ChangesTest extends \unittest\TestCase {
+class ChangesTest extends TestCase {
 
-  #[@test]
+  /** @return iterable */
+  private function creation() {
+    yield [['op' => 'test', 'path' => '/a/b/c', 'value' => 'foo']];
+    yield [['op' => 'remove', 'path' => '/a/b/c']];
+    yield [['op' => 'add', 'path' => '/a/b/c', 'value' => [ 'foo', 'bar' ]]];
+    yield [['op' => 'replace', 'path' => '/a/b/c', 'value' => 42]];
+    yield [['op' => 'move', 'from' => '/a/b/c', 'path' => '/a/b/d']];
+    yield [['op' => 'copy', 'from' => '/a/b/d', 'path' => '/a/b/e']];
+    yield [new TestOperation('/a/b/c', null)];
+  }
+
+  #[Test]
   public function can_create_from_empty() {
     new Changes();
   }
 
-  #[@test, @values([
-  #  [['op' => 'test', 'path' => '/a/b/c', 'value' => 'foo']],
-  #  [['op' => 'remove', 'path' => '/a/b/c']],
-  #  [['op' => 'add', 'path' => '/a/b/c', 'value' => [ 'foo', 'bar' ]]],
-  #  [['op' => 'replace', 'path' => '/a/b/c', 'value' => 42]],
-  #  [['op' => 'move', 'from' => '/a/b/c', 'path' => '/a/b/d']],
-  #  [['op' => 'copy', 'from' => '/a/b/d', 'path' => '/a/b/e']],
-  #  [new TestOperation('/a/b/c', null)]
-  #])]
+  #[Test, Values('creation')]
   public function can_create_from($operation) {
     new Changes($operation);
   }
 
-  #[@test]
+  #[Test]
   public function can_create_from_map_and_instance() {
     new Changes(
       ['op' => 'test', 'path' => '/a/b/c', 'value' => null],
@@ -30,18 +34,18 @@ class ChangesTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function empty_operations() {
     $this->assertEquals([], (new Changes())->operations());
   }
 
-  #[@test]
+  #[Test]
   public function operations() {
     $operation= new TestOperation('/a/b/c', null);
     $this->assertEquals([$operation], (new Changes($operation))->operations());
   }
 
-  #[@test]
+  #[Test]
   public function to_single_field() {
     $this->assertEquals(
       ['/a/b/c'],
@@ -49,7 +53,7 @@ class ChangesTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function to_multiple_fields() {
     $this->assertEquals(
       ['/a/b/c', '/a/b/d'],
@@ -57,7 +61,7 @@ class ChangesTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function to_uniques() {
     $this->assertEquals(
       ['/a/b/c'],

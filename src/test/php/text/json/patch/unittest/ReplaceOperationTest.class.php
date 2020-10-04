@@ -1,10 +1,11 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Applied, ReplaceOperation};
+use unittest\Test;
 
 class ReplaceOperationTest extends OperationTest {
 
-  #[@test]
+  #[Test]
   public function changes_value() {
     $operation= new ReplaceOperation('/value', self::CHANGED);
 
@@ -13,7 +14,7 @@ class ReplaceOperationTest extends OperationTest {
     $this->assertEquals(['value' => self::CHANGED], $value);
   }
 
-  #[@test]
+  #[Test]
   public function returns_success_on_changes() {
     $operation= new ReplaceOperation('/value', self::CHANGED);
 
@@ -21,7 +22,7 @@ class ReplaceOperationTest extends OperationTest {
     $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
-  #[@test]
+  #[Test]
   public function returns_false_if_path_does_not_exist() {
     $operation= new ReplaceOperation('/does-not-exist', self::CHANGED);
 
@@ -29,7 +30,7 @@ class ReplaceOperationTest extends OperationTest {
     $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
-  #[@test]
+  #[Test]
   public function returns_success_even_when_unchanged() {
     $operation= new ReplaceOperation('/value', self::ORIGINAL);
 
@@ -37,7 +38,7 @@ class ReplaceOperationTest extends OperationTest {
     $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
-  #[@test]
+  #[Test]
   public function can_replace_toplevel() {
     $operation= new ReplaceOperation('', self::CHANGED);
 
@@ -46,7 +47,7 @@ class ReplaceOperationTest extends OperationTest {
     $this->assertEquals(self::CHANGED, $value);
   }
 
-  #[@test]
+  #[Test]
   public function dash_has_no_special_meaning_for_non_arrays() {
     $operation= new ReplaceOperation('/-', self::CHANGED);
 
