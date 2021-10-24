@@ -3,6 +3,12 @@ JSON patch change log
 
 ## ?.?.? / ????-??-??
 
+## 2.0.1 / 2021-10-24
+
+* Made compatible with XP 11 as well as new major versions of
+  `xp-framework/io-collections` and `xp-forge/json`
+  (@thekid)
+
 ## 2.0.0 / 2020-04-10
 
 * Implemented xp-framework/rfc#334: Drop PHP 5.6:
