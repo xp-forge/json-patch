@@ -1,6 +1,8 @@
 <?php namespace text\json\patch\unittest;
 
-abstract class OperationTest extends \unittest\TestCase {
+use unittest\Assert;
+
+abstract class OperationTest {
   const ORIGINAL = 42;
   const CHANGED = 6100;
 

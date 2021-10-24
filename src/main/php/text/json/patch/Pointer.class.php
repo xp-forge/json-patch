@@ -14,13 +14,13 @@ class Pointer implements Value {
   /**
    * Creates a new pointer
    *
-   * @param  string $path
+   * @param  ?string $path
    * @throws lang.IllegalArgumentException
    */
   public function __construct($path) {
     if ('' === $path) {
       $this->path= [];
-    } else if (1 === strspn($path, '/')) {
+    } else if (1 === strspn((string)$path, '/')) {
       $this->path= [];
       foreach (explode('/', substr($path, 1)) as $token) {
         $this->path[$token]= $this->address($token);

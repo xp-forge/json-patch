@@ -1,9 +1,10 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Changes, Failure, PathDoesNotExist, Success};
+use unittest\Assert;
 use unittest\Test;
 
-class ApplyTest extends \unittest\TestCase {
+class ApplyTest {
   const ORIGINAL = 42;
   const CHANGED = 6100;
 
@@ -12,7 +13,7 @@ class ApplyTest extends \unittest\TestCase {
     $changes= new Changes(['op' => 'replace', 'path' => '/value', 'value' => self::CHANGED]);
     $value= ['value' => self::ORIGINAL];
 
-    $this->assertEquals(['value' => self::CHANGED], $changes->apply($value)->value());
+    Assert::equals(['value' => self::CHANGED], $changes->apply($value)->value());
   }
 
   #[Test]
@@ -23,7 +24,7 @@ class ApplyTest extends \unittest\TestCase {
     );
     $value= ['value' => self::ORIGINAL];
 
-    $this->assertEquals(['value' => self::CHANGED], $changes->apply($value)->value());
+    Assert::equals(['value' => self::CHANGED], $changes->apply($value)->value());
   }
 
   #[Test]
@@ -34,7 +35,7 @@ class ApplyTest extends \unittest\TestCase {
     );
     $value= ['value' => self::ORIGINAL];
 
-    $this->assertFalse($changes->apply($value)->successful());
+    Assert::false($changes->apply($value)->successful());
   }
 
   #[Test]
@@ -42,7 +43,7 @@ class ApplyTest extends \unittest\TestCase {
     $changes= new Changes(['op' => 'test', 'path' => '/value', 'value' => self::ORIGINAL]);
     $value= ['value' => self::ORIGINAL];
 
-    $this->assertEquals(new Success($value), $changes->apply($value));
+    Assert::equals(new Success($value), $changes->apply($value));
   }
 
   #[Test]
@@ -50,6 +51,6 @@ class ApplyTest extends \unittest\TestCase {
     $changes= new Changes(['op' => 'test', 'path' => '/non-existant', 'value' => null]);
     $value= ['value' => self::ORIGINAL];
 
-    $this->assertEquals(new Failure(new PathDoesNotExist('/non-existant')), $changes->apply($value));
+    Assert::equals(new Failure(new PathDoesNotExist('/non-existant')), $changes->apply($value));
   }
 }

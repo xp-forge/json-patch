@@ -1,6 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Applied, RemoveOperation};
+use unittest\Assert;
 use unittest\Test;
 
 class RemoveOperationTest extends OperationTest {
@@ -10,8 +11,8 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation('/baz');
 
     $value= ['baz' => 'qux', 'foo' => 'bar'];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals(['foo' => 'bar'], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(['foo' => 'bar'], $value);
   }
 
   #[Test]
@@ -19,8 +20,8 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation('/foo/1');
 
     $value= ['foo' => ['bar', 'qux', 'baz']];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals(['foo' => ['bar', 'baz']], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(['foo' => ['bar', 'baz']], $value);
   }
 
   #[Test]
@@ -28,7 +29,7 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation('/baz');
 
     $value= ['foo' => 'bar'];
-    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
+    Assert::instance('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
   #[Test]
@@ -36,7 +37,7 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation('/foo/1');
 
     $value= ['foo' => ['bar']];
-    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
+    Assert::instance('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
   #[Test]
@@ -44,7 +45,7 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation('');
 
     $value= null;
-    $this->assertInstanceOf('text.json.patch.TypeConflict', $operation->applyTo($value));
+    Assert::instance('text.json.patch.TypeConflict', $operation->applyTo($value));
   }
 
   #[Test]
@@ -52,8 +53,8 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation('/-');
 
     $value= ['-' => 4];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals([], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals([], $value);
   }
 
   #[Test]
@@ -61,7 +62,7 @@ class RemoveOperationTest extends OperationTest {
     $operation= new RemoveOperation('/-');
 
     $value= [1, 2, 3];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals([1, 2], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals([1, 2], $value);
   }
 }

@@ -1,6 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{AddOperation, Applied};
+use unittest\Assert;
 use unittest\Test;
 
 class AddOperationTest extends OperationTest {
@@ -10,8 +11,8 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/baz', 'qux');
 
     $value= ['foo' => 'bar'];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(['foo' => 'bar', 'baz' => 'qux'], $value);
   }
 
   #[Test]
@@ -19,8 +20,8 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/foo/1', 'qux');
 
     $value= ['foo' => ['bar', 'baz']];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals(['foo' => ['bar', 'qux', 'baz']], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(['foo' => ['bar', 'qux', 'baz']], $value);
   }
 
   #[Test]
@@ -28,7 +29,7 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/baz/bat', 'qux');
 
     $value= ['foo' => 'bar'];
-    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
+    Assert::instance('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
   #[Test]
@@ -36,8 +37,8 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/foo/-', ['abc', 'def']);
 
     $value= ['foo' => ['bar']];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals(['foo' => ['bar', ['abc', 'def']]], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(['foo' => ['bar', ['abc', 'def']]], $value);
   }
 
   #[Test]
@@ -45,8 +46,8 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/foo/-', 'bar');
 
     $value= ['foo' => []];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals(['foo' => ['bar']], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(['foo' => ['bar']], $value);
   }
 
   #[Test]
@@ -54,8 +55,8 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/baz', 'qux');
 
     $value= ['foo' => 'bar', 'baz' => 'bat'];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(['foo' => 'bar', 'baz' => 'qux'], $value);
   }
 
   #[Test]
@@ -63,7 +64,7 @@ class AddOperationTest extends OperationTest {
     $operation= new AddOperation('/-', self::CHANGED);
 
     $value= ['color' => 'green'];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals(['color' => 'green', '-' => self::CHANGED], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(['color' => 'green', '-' => self::CHANGED], $value);
   }
 }

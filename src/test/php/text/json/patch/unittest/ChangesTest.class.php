@@ -1,9 +1,10 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Changes, TestOperation};
+use unittest\Assert;
 use unittest\{Test, TestCase, Values};
 
-class ChangesTest extends TestCase {
+class ChangesTest {
 
   /** @return iterable */
   private function creation() {
@@ -36,18 +37,18 @@ class ChangesTest extends TestCase {
 
   #[Test]
   public function empty_operations() {
-    $this->assertEquals([], (new Changes())->operations());
+    Assert::equals([], (new Changes())->operations());
   }
 
   #[Test]
   public function operations() {
     $operation= new TestOperation('/a/b/c', null);
-    $this->assertEquals([$operation], (new Changes($operation))->operations());
+    Assert::equals([$operation], (new Changes($operation))->operations());
   }
 
   #[Test]
   public function to_single_field() {
-    $this->assertEquals(
+    Assert::equals(
       ['/a/b/c'],
       (new Changes(['op' => 'remove', 'path' => '/a/b/c']))->to()
     );
@@ -55,7 +56,7 @@ class ChangesTest extends TestCase {
 
   #[Test]
   public function to_multiple_fields() {
-    $this->assertEquals(
+    Assert::equals(
       ['/a/b/c', '/a/b/d'],
       (new Changes(['op' => 'remove', 'path' => '/a/b/c'], ['op' => 'remove', 'path' => '/a/b/d']))->to()
     );
@@ -63,7 +64,7 @@ class ChangesTest extends TestCase {
 
   #[Test]
   public function to_uniques() {
-    $this->assertEquals(
+    Assert::equals(
       ['/a/b/c'],
       (new Changes(['op' => 'test', 'path' => '/a/b/c', 'value' => null], ['op' => 'remove', 'path' => '/a/b/c']))->to()
     );

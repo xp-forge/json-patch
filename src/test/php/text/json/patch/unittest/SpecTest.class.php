@@ -5,7 +5,7 @@ use io\collections\{FileCollection, FileElement};
 use lang\IllegalArgumentException;
 use text\json\StreamInput;
 use text\json\patch\Changes;
-use unittest\{Test, TestCase, Values};
+use unittest\{Assert, Test, Values, IgnoredBecause};
 
 /**
  * Tests against specification
@@ -16,16 +16,15 @@ use unittest\{Test, TestCase, Values};
  * $ xp test src/test/php -a json-patch-tests-master/
  * ```
  */
-class SpecTest extends TestCase {
+class SpecTest {
   private $target;
 
   /**
    * Constructor
-   * @param string $name
+   *
    * @param string $target The directory in which the spec files exist
    */
-  public function __construct($name, $target= null) {
-    parent::__construct($name);
+  public function __construct($target= null) {
     $this->target= $target;
   }
 
@@ -54,24 +53,24 @@ class SpecTest extends TestCase {
   #[Test, Values('specifications')]
   public function specification_met($name, $test) {
     if (isset($test['disabled'])) {
-      $this->skip('Disabed');
+      throw new IgnoredBecause($test['disabled']);
     } else if (isset($test['error'])) {
       try {
         $changes= new Changes(...$test['patch']);
       } catch (IllegalArgumentException $expected) {
         return;  // OK
       }
-      $this->assertFalse($changes->apply($test['doc'])->successful());
+      Assert::false($changes->apply($test['doc'])->successful());
     } else if (isset($test['expected'])) {
       $changes= new Changes(...$test['patch']);
       $result= $changes->apply($test['doc']);
       if (!$result->successful()) {
         $this->fail('Changes did not apply successfully', $result->error()->message(), null);
       }
-      $this->assertEquals($test['expected'], $result->value());
+      Assert::equals($test['expected'], $result->value());
     } else if (isset($test['patch'])) {
       $changes= new Changes(...$test['patch']);
-      $this->assertTrue($changes->apply($test['doc'])->successful());
+      Assert::true($changes->apply($test['doc'])->successful());
     }
   }
 }

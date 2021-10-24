@@ -1,7 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Applied, TestOperation};
-use unittest\{Test, Values};
+use unittest\{Assert, Test, Values};
 
 class TestOperationTest extends OperationTest {
 
@@ -10,7 +10,7 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation('/value', self::ORIGINAL);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
   #[Test]
@@ -18,7 +18,7 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation('/does-not-exist', null);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
+    Assert::instance('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
   #[Test]
@@ -26,19 +26,19 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation('/value', '10');
 
     $value= ['value' => 10];
-    $this->assertInstanceOf('text.json.patch.NotEquals', $operation->applyTo($value));
+    Assert::instance('text.json.patch.NotEquals', $operation->applyTo($value));
   }
 
   #[Test, Values([1, -1, 0.5, null, '', false, true])]
   public function test_with_toplevel($value) {
     $operation= new TestOperation('', $value);
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
   #[Test, Values([[2, 2.0], [2.0, 2]])]
   public function numerically_equal($value, $compare) {
     $operation= new TestOperation('', $compare);
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
   #[Test, Values([[['test' => true, 'color' => 'green']], [['color' => 'green', 'test' => true]]])]
@@ -46,13 +46,13 @@ class TestOperationTest extends OperationTest {
     $operation= new TestOperation('', $compare);
 
     $value= ['color' => 'green', 'test' => true];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
   #[Test, Values([['', false], [false, ''], [0, false], [false, 0], [0.0, false], [false, 0.0], [[], false], [false, []], [null, false], [false, null]])]
   public function falsy_values_do_not_compare($value, $compare) {
     $operation= new TestOperation('', $compare);
-    $this->assertInstanceOf('text.json.patch.NotEquals', $operation->applyTo($value));
+    Assert::instance('text.json.patch.NotEquals', $operation->applyTo($value));
   }
 
 }

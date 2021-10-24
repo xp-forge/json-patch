@@ -1,6 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Applied, ReplaceOperation};
+use unittest\Assert;
 use unittest\Test;
 
 class ReplaceOperationTest extends OperationTest {
@@ -11,7 +12,7 @@ class ReplaceOperationTest extends OperationTest {
 
     $value= ['value' => self::ORIGINAL];
     $operation->applyTo($value);
-    $this->assertEquals(['value' => self::CHANGED], $value);
+    Assert::equals(['value' => self::CHANGED], $value);
   }
 
   #[Test]
@@ -19,7 +20,7 @@ class ReplaceOperationTest extends OperationTest {
     $operation= new ReplaceOperation('/value', self::CHANGED);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
   #[Test]
@@ -27,7 +28,7 @@ class ReplaceOperationTest extends OperationTest {
     $operation= new ReplaceOperation('/does-not-exist', self::CHANGED);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertInstanceOf('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
+    Assert::instance('text.json.patch.PathDoesNotExist', $operation->applyTo($value));
   }
 
   #[Test]
@@ -35,7 +36,7 @@ class ReplaceOperationTest extends OperationTest {
     $operation= new ReplaceOperation('/value', self::ORIGINAL);
 
     $value= ['value' => self::ORIGINAL];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
   }
 
   #[Test]
@@ -44,7 +45,7 @@ class ReplaceOperationTest extends OperationTest {
 
     $value= self::ORIGINAL;
     $operation->applyTo($value);
-    $this->assertEquals(self::CHANGED, $value);
+    Assert::equals(self::CHANGED, $value);
   }
 
   #[Test]
@@ -52,7 +53,7 @@ class ReplaceOperationTest extends OperationTest {
     $operation= new ReplaceOperation('/-', self::CHANGED);
 
     $value= ['-' => self::ORIGINAL];
-    $this->assertEquals(Applied::$CLEANLY, $operation->applyTo($value));
-    $this->assertEquals(['-' => self::CHANGED], $value);
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals(['-' => self::CHANGED], $value);
   }
 }

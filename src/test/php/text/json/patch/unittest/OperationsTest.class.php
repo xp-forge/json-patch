@@ -2,9 +2,10 @@
 
 use lang\IllegalArgumentException;
 use text\json\patch\{AddOperation, CopyOperation, MoveOperation, Operations, RemoveOperation, ReplaceOperation, TestOperation};
+use unittest\Assert;
 use unittest\{Expect, Test};
 
-class OperationsTest extends \unittest\TestCase {
+class OperationsTest {
 
   #[Test, Expect(IllegalArgumentException::class)]
   public function unknown_op() {
@@ -13,7 +14,7 @@ class OperationsTest extends \unittest\TestCase {
 
   #[Test]
   public function add() {
-    $this->assertEquals(
+    Assert::equals(
       new AddOperation('/path', 'value'),
       Operations::named('add')->newInstance(['path' => '/path', 'value' => 'value'])
     );
@@ -31,7 +32,7 @@ class OperationsTest extends \unittest\TestCase {
 
   #[Test]
   public function remove() {
-    $this->assertEquals(
+    Assert::equals(
       new RemoveOperation('/path'),
       Operations::named('remove')->newInstance(['path' => '/path'])
     );
@@ -44,7 +45,7 @@ class OperationsTest extends \unittest\TestCase {
 
   #[Test]
   public function replace() {
-    $this->assertEquals(
+    Assert::equals(
       new ReplaceOperation('/path', 'value'),
       Operations::named('replace')->newInstance(['path' => '/path', 'value' => 'value'])
     );
@@ -62,7 +63,7 @@ class OperationsTest extends \unittest\TestCase {
 
   #[Test]
   public function move() {
-    $this->assertEquals(
+    Assert::equals(
       new MoveOperation('/source', '/path'),
       Operations::named('move')->newInstance(['path' => '/path', 'from' => '/source'])
     );
@@ -80,7 +81,7 @@ class OperationsTest extends \unittest\TestCase {
 
   #[Test]
   public function copy() {
-    $this->assertEquals(
+    Assert::equals(
       new CopyOperation('/source', '/path'),
       Operations::named('copy')->newInstance(['path' => '/path', 'from' => '/source'])
     );
@@ -98,7 +99,7 @@ class OperationsTest extends \unittest\TestCase {
 
   #[Test]
   public function test() {
-    $this->assertEquals(
+    Assert::equals(
       new TestOperation('/path', 'value'),
       Operations::named('test')->newInstance(['path' => '/path', 'value' => 'value'])
     );
