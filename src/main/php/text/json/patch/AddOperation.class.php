@@ -18,6 +18,7 @@ use util\Objects;
  * @test  xp://text.json.patch.unittest.AddOperationTest
  */
 class AddOperation extends Operation {
+  private $value;
 
   /**
    * Creates a new test operation

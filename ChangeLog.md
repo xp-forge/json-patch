@@ -3,6 +3,10 @@ JSON patch change log
 
 ## ?.?.? / ????-??-??
 
+## 2.0.2 / 2022-02-26
+
+* Fixed "Creation of dynamic property" warnings in PHP 8.2 - @thekid
+
 ## 2.0.1 / 2021-10-24
 
 * Made compatible with XP 11 as well as new major versions of
