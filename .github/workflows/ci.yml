@@ -59,4 +59,7 @@ jobs:
         rm master.zip
 
     - name: Run test suite
+      run: sh xp-run xp.test.Runner src/test/php
+
+    - name: Run integration tests
       run: sh xp-run xp.test.Runner src/test/php -a json-patch-tests-master/

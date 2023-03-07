@@ -2,10 +2,10 @@
 
 use io\collections\iterate\{FilteredIOCollectionIterator, NameMatchesFilter};
 use io\collections\{FileCollection, FileElement};
-use lang\IllegalArgumentException;
+use lang\{IllegalArgumentException, IllegalStateException};
+use test\{Args, Assert, IgnoredBecause, Test, Values};
 use text\json\StreamInput;
 use text\json\patch\Changes;
-use test\{Assert, IgnoredBecause, Test, Values};
 
 /**
  * Tests against specification
@@ -13,9 +13,10 @@ use test\{Assert, IgnoredBecause, Test, Values};
  * ```sh
  * $ wget 'https://github.com/json-patch/json-patch-tests/archive/master.zip' -O master.zip
  * $ unzip master.zip && rm master.zip
- * $ xp test src/test/php -a json-patch-tests-master/
+ * $ xp test src/it/php --folder=json-patch-tests-master/
  * ```
  */
+#[Args('folder')]
 class SpecTest {
   private $target;
 
@@ -24,15 +25,13 @@ class SpecTest {
    *
    * @param string $target The directory in which the spec files exist
    */
-  public function __construct($target= null) {
+  public function __construct($target) {
     $this->target= $target;
   }
 
   /** @return var[][] */
   public function specifications() {
-    if (null === $this->target) {
-      return;
-    } else if (is_file($this->target)) {
+    if (is_file($this->target)) {
       $files= [new FileElement($this->target)];
     } else {
       $files= new FilteredIOCollectionIterator(
@@ -53,7 +52,7 @@ class SpecTest {
   #[Test, Values(from: 'specifications')]
   public function specification_met($name, $test) {
     if (isset($test['disabled'])) {
-      throw new IgnoredBecause($test['disabled']);
+      // TODO: Report reason why disabled: Assert::skipped()?
     } else if (isset($test['error'])) {
       try {
         $changes= new Changes(...$test['patch']);
@@ -65,7 +64,7 @@ class SpecTest {
       $changes= new Changes(...$test['patch']);
       $result= $changes->apply($test['doc']);
       if (!$result->successful()) {
-        $this->fail('Changes did not apply successfully', $result->error()->message(), null);
+        throw new IllegalStateException('Changes did not apply successfully: '.$result->error()->message());
       }
       Assert::equals($test['expected'], $result->value());
     } else if (isset($test['patch'])) {
