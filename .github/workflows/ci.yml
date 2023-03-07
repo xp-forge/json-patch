@@ -53,13 +53,14 @@ jobs:
       run: >
         curl -sSL https://baltocdn.com/xp-framework/xp-runners/distribution/downloads/e/entrypoint/xp-run-8.6.2.sh > xp-run &&
         composer install --prefer-dist &&
-        echo "vendor/autoload.php" > composer.pth &&
-        curl -sSL -O https://github.com/json-patch/json-patch-tests/archive/master.zip &&
-        unzip master.zip &&
-        rm master.zip
+        echo "vendor/autoload.php" > composer.pth
 
     - name: Run test suite
       run: sh xp-run xp.test.Runner src/test/php
 
     - name: Run integration tests
-      run: sh xp-run xp.test.Runner src/test/php -a json-patch-tests-master/
+      run: >
+        curl -sSL -O https://github.com/json-patch/json-patch-tests/archive/master.zip &&
+        unzip master.zip &&
+        rm master.zip &&
+        sh xp-run xp.test.Runner src/test/php --folder=json-patch-tests-master/
