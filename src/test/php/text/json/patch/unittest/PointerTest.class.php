@@ -1,8 +1,8 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Address, Pointer};
-use unittest\Assert;
-use unittest\{Test, Values};
+use test\Assert;
+use test\{Test, Values};
 
 class PointerTest {
 
@@ -18,12 +18,12 @@ class PointerTest {
     ];
   }
 
-  #[Test, Values('fixtures')]
+  #[Test, Values(from: 'fixtures')]
   public function can_create($input) {
     new Pointer($input);
   }
 
-  #[Test, Values('fixtures')]
+  #[Test, Values(from: 'fixtures')]
   public function string($input) {
     Assert::equals($input, (string)(new Pointer($input)));
   }

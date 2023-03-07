@@ -5,7 +5,7 @@ use io\collections\{FileCollection, FileElement};
 use lang\IllegalArgumentException;
 use text\json\StreamInput;
 use text\json\patch\Changes;
-use unittest\{Assert, Test, Values, IgnoredBecause};
+use test\{Assert, IgnoredBecause, Test, Values};
 
 /**
  * Tests against specification
@@ -50,7 +50,7 @@ class SpecTest {
     }
   }
 
-  #[Test, Values('specifications')]
+  #[Test, Values(from: 'specifications')]
   public function specification_met($name, $test) {
     if (isset($test['disabled'])) {
       throw new IgnoredBecause($test['disabled']);

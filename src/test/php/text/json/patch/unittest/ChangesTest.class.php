@@ -1,8 +1,8 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Changes, TestOperation};
-use unittest\Assert;
-use unittest\{Test, TestCase, Values};
+use test\Assert;
+use test\{Test, TestCase, Values};
 
 class ChangesTest {
 
@@ -22,7 +22,7 @@ class ChangesTest {
     new Changes();
   }
 
-  #[Test, Values('creation')]
+  #[Test, Values(from: 'creation')]
   public function can_create_from($operation) {
     new Changes($operation);
   }

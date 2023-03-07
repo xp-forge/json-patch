@@ -1,7 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Applied, TestOperation};
-use unittest\{Assert, Test, Values};
+use test\{Assert, Test, Values};
 
 class TestOperationTest extends OperationTest {
 
