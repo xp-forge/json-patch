@@ -1,6 +1,6 @@
 <?php namespace text\json\patch\unittest;
 
-use unittest\Assert;
+use test\Assert;
 
 abstract class OperationTest {
   const ORIGINAL = 42;

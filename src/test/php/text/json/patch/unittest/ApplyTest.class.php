@@ -1,8 +1,8 @@
 <?php namespace text\json\patch\unittest;
 
 use text\json\patch\{Changes, Failure, PathDoesNotExist, Success};
-use unittest\Assert;
-use unittest\Test;
+use test\Assert;
+use test\Test;
 
 class ApplyTest {
   const ORIGINAL = 42;
