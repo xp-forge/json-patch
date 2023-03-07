@@ -3,6 +3,8 @@ JSON patch change log
 
 ## ?.?.? / ????-??-??
 
+* Merged PR #2: Migrate to new testing library - @thekid
+
 ## 2.0.2 / 2022-02-26
 
 * Fixed "Creation of dynamic property" warnings in PHP 8.2 - @thekid
