@@ -3,6 +3,7 @@ JSON patch change log
 
 ## ?.?.? / ????-??-??
 
+* Added PHP 8.4 to the test matrix - @thekid
 * Merged PR #2: Migrate to new testing library - @thekid
 
 ## 2.0.2 / 2022-02-26
