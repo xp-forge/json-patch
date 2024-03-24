@@ -6,11 +6,11 @@
   "description" : "Implements JSON patch documents described in RFC #6902",
   "keywords": ["module", "xp"],
   "require" : {
-    "xp-framework/core": "^11.0 | ^10.0 | ^9.0 | ^8.0 | ^7.0",
+    "xp-framework/core": "^12.0 | ^11.0 | ^10.0 | ^9.0 | ^8.0 | ^7.0",
     "php" : ">=7.0.0"
   },
   "require-dev" : {
-    "xp-framework/test": "^1.0",
+    "xp-framework/test": "^2.0 | ^1.0",
     "xp-framework/io-collections": "^10.0 | ^9.0 | ^8.0 | ^7.0",
     "xp-forge/json": "^5.0 | ^4.0 | ^3.0 | ^2.0"
   },
