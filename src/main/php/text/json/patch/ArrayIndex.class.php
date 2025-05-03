@@ -11,6 +11,8 @@ class ArrayIndex extends Address {
    */
   public function __construct($pos, parent $parent) {
     $this->pos= $pos;
+    is_object($parent->reference) && $parent->reference= (array)$parent->reference;
+
     if (is_array($parent->reference) && array_key_exists($this->pos, $parent->reference)) {
       parent::__construct($parent->reference[$this->pos], $parent);
     } else {

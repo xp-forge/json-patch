@@ -235,6 +235,13 @@ class PointerTest {
   }
 
   #[Test]
+  public function modify_array_index_of_object() {
+    $value= (object)['1' => 'test'];
+    (new Pointer('/1'))->resolve($value)->modify('changed');
+    Assert::equals(['1' => 'changed'], $value);
+  }
+
+  #[Test]
   public function dash_for_empty_object() {
     $value= (object)[];
     (new Pointer('/-'))->resolve($value)->add('added');
