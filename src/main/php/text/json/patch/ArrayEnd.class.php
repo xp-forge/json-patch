@@ -39,6 +39,7 @@ class ArrayEnd extends Address {
     if ($this->parent->exists) {
       if (array_key_exists('-', $this->parent->reference)) {
         unset($this->parent->reference['-']);
+        empty($this->parent->reference) && $this->parent->reference= (object)[];
         return Applied::$CLEANLY;
       } else if (0 === key($this->parent->reference)) {
         array_pop($this->parent->reference);
@@ -56,7 +57,9 @@ class ArrayEnd extends Address {
    */
   public function add($value) {
     if ($this->parent->exists) {
-      if (empty($this->parent->reference) || 0 === key($this->parent->reference)) {
+      if (is_object($this->parent->reference)) {
+        $this->parent->reference= ['-' => $value];
+      } else if (empty($this->parent->reference) || 0 === key($this->parent->reference)) {
         $this->parent->reference[]= $value;
         return Applied::$CLEANLY;
       } else {

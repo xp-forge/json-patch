@@ -1,8 +1,8 @@
 <?php namespace text\json\patch\unittest;
 
-use text\json\patch\{Changes, TestOperation};
 use test\Assert;
 use test\{Test, TestCase, Values};
+use text\json\patch\{Changes, TestOperation};
 
 class ChangesTest {
 

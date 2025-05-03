@@ -1,8 +1,8 @@
 <?php namespace text\json\patch\unittest;
 
-use text\json\patch\{Address, Pointer};
 use test\Assert;
 use test\{Test, Values};
+use text\json\patch\{Address, Pointer};
 
 class PointerTest {
 
@@ -150,7 +150,7 @@ class PointerTest {
   public function remove_object_member() {
     $value= ['text' => 'original'];
     (new Pointer('/text'))->resolve($value)->remove();
-    Assert::equals([], $value);
+    Assert::equals((object)[], $value);
   }
 
   #[Test]
@@ -193,6 +193,20 @@ class PointerTest {
   }
 
   #[Test]
+  public function add_object_member_to_empty() {
+    $value= (object)[];
+    (new Pointer('/a'))->resolve($value)->add('added');
+    Assert::equals(['a' => 'added'], $value);
+  }
+
+  #[Test]
+  public function dash_for_empty_object() {
+    $value= (object)[];
+    (new Pointer('/-'))->resolve($value)->add('added');
+    Assert::equals(['-' => 'added'], $value);
+  }
+
+  #[Test]
   public function cannot_add_object_member_to_array() {
     $value= [1, 2, 3];
     Assert::instance('text.json.patch.TypeConflict', (new Pointer('/member'))->resolve($value)->add('test'));
@@ -208,5 +222,15 @@ class PointerTest {
   public function cannot_add_to_nonexistant_object() {
     $value= [];
     Assert::instance('text.json.patch.PathDoesNotExist', (new Pointer('/non-existant/member'))->resolve($value)->add('test'));
+  }
+
+  #[Test]
+  public function remove_then_add_back_object_member() {
+    $value= ['text' => 'original'];
+    $ptr= new Pointer('/text');
+    $ptr->resolve($value)->remove();
+    $ptr->resolve($value)->add('changed');
+
+    Assert::equals(['text' => 'changed'], $value);
   }
 }

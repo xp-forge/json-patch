@@ -1,8 +1,7 @@
 <?php namespace text\json\patch\unittest;
 
+use test\{Assert, Test};
 use text\json\patch\{Applied, RemoveOperation};
-use test\Assert;
-use test\Test;
 
 class RemoveOperationTest extends OperationTest {
 
@@ -13,6 +12,15 @@ class RemoveOperationTest extends OperationTest {
     $value= ['baz' => 'qux', 'foo' => 'bar'];
     Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
     Assert::equals(['foo' => 'bar'], $value);
+  }
+
+  #[Test]
+  public function removing_last_object_member() {
+    $operation= new RemoveOperation('/baz');
+
+    $value= ['baz' => 'qux'];
+    Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
+    Assert::equals((object)[], $value);
   }
 
   #[Test]
@@ -54,7 +62,7 @@ class RemoveOperationTest extends OperationTest {
 
     $value= ['-' => 4];
     Assert::equals(Applied::$CLEANLY, $operation->applyTo($value));
-    Assert::equals([], $value);
+    Assert::equals((object)[], $value);
   }
 
   #[Test]

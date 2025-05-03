@@ -44,6 +44,7 @@ class ObjectMember extends Address {
   public function remove() {
     if ($this->exists) {
       unset($this->parent->reference[$this->name]);
+      empty($this->parent->reference) && $this->parent->reference= (object)[];
       return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
@@ -58,7 +59,9 @@ class ObjectMember extends Address {
    */
   public function add($value) {
     if ($this->parent->exists) {
-      if (0 === key($this->parent->reference)) {
+      if (is_object($this->parent->reference)) {
+        $this->parent->reference= [];
+      } else if (0 === key($this->parent->reference)) {
         return new TypeConflict('Object operation on array target');
       }
 
