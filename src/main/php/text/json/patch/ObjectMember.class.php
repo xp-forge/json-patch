@@ -11,6 +11,8 @@ class ObjectMember extends Address {
    */
   public function __construct($name, parent $parent) {
     $this->name= $name;
+    is_object($parent->reference) && $parent->reference= (array)$parent->reference;
+
     if (is_array($parent->reference) && array_key_exists($this->name, $parent->reference)) {
       parent::__construct($parent->reference[$this->name], $parent);
     } else {

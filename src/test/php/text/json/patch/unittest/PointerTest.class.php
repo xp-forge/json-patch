@@ -115,8 +115,15 @@ class PointerTest {
   }
 
   #[Test]
-  public function modify_object_member() {
+  public function modify_object_member_on_array() {
     $value= ['text' => 'original'];
+    (new Pointer('/text'))->resolve($value)->modify('modified');
+    Assert::equals(['text' => 'modified'], $value);
+  }
+
+  #[Test]
+  public function modify_object_member_on_object() {
+    $value= (object)['text' => 'original'];
     (new Pointer('/text'))->resolve($value)->modify('modified');
     Assert::equals(['text' => 'modified'], $value);
   }
@@ -147,10 +154,24 @@ class PointerTest {
   }
 
   #[Test]
-  public function remove_object_member() {
+  public function remove_last_object_membery() {
     $value= ['text' => 'original'];
     (new Pointer('/text'))->resolve($value)->remove();
     Assert::equals((object)[], $value);
+  }
+
+  #[Test]
+  public function remove_object_member_from_array() {
+    $value= ['text' => 'original', 'key' => 'value'];
+    (new Pointer('/text'))->resolve($value)->remove();
+    Assert::equals(['key' => 'value'], $value);
+  }
+
+  #[Test]
+  public function remove_object_member_from_object() {
+    $value= (object)['text' => 'original', 'key' => 'value'];
+    (new Pointer('/text'))->resolve($value)->remove();
+    Assert::equals(['key' => 'value'], $value);
   }
 
   #[Test]
@@ -186,8 +207,15 @@ class PointerTest {
   }
 
   #[Test]
-  public function add_object_member() {
+  public function add_object_member_to_array() {
     $value= ['a' => 'original'];
+    (new Pointer('/b'))->resolve($value)->add('added');
+    Assert::equals(['a' => 'original', 'b' => 'added'], $value);
+  }
+
+  #[Test]
+  public function add_object_member_to_object() {
+    $value= (object)['a' => 'original'];
     (new Pointer('/b'))->resolve($value)->add('added');
     Assert::equals(['a' => 'original', 'b' => 'added'], $value);
   }
@@ -197,6 +225,13 @@ class PointerTest {
     $value= (object)[];
     (new Pointer('/a'))->resolve($value)->add('added');
     Assert::equals(['a' => 'added'], $value);
+  }
+
+  #[Test]
+  public function dash_for_object() {
+    $value= (object)['key' => 'value'];
+    (new Pointer('/-'))->resolve($value)->add('added');
+    Assert::equals(['key' => 'value', '-' => 'added'], $value);
   }
 
   #[Test]

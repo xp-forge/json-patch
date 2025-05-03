@@ -58,7 +58,7 @@ class ArrayEnd extends Address {
   public function add($value) {
     if ($this->parent->exists) {
       if (is_object($this->parent->reference)) {
-        $this->parent->reference= ['-' => $value];
+        $this->parent->reference= ['-' => $value] + (array)$this->parent->reference;
       } else if (empty($this->parent->reference) || 0 === key($this->parent->reference)) {
         $this->parent->reference[]= $value;
         return Applied::$CLEANLY;
