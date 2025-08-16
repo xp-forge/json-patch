@@ -3,6 +3,10 @@ JSON patch change log
 
 ## ?.?.? / ????-??-??
 
+## 2.1.1 / 2025-08-16
+
+* Fixed *Non-canonical cast (double) is deprecated* in PHP 8.5 - @thekid
+
 ## 2.1.0 / 2024-03-24
 
 * Made compatible with XP 12 - @thekid

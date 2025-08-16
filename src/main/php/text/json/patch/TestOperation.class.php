@@ -32,10 +32,10 @@ class TestOperation extends Operation {
     $address= $this->path->resolve($target);
     if ($address->exists()) {
       $value= $address->value();
-      if (is_int($value) && is_double($this->value)) {
-        $equal= (double)$value === $this->value;
-      } else if (is_double($value) && is_int($this->value)) {
-        $equal= $value === (double)$this->value;
+      if (is_int($value) && is_float($this->value)) {
+        $equal= (float)$value === $this->value;
+      } else if (is_float($value) && is_int($this->value)) {
+        $equal= $value === (float)$this->value;
       } else {
         $equal= Objects::equal($value, $this->value);
       }
