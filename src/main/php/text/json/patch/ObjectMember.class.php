@@ -11,6 +11,8 @@ class ObjectMember extends Address {
    */
   public function __construct($name, parent $parent) {
     $this->name= $name;
+    is_object($parent->reference) && $parent->reference= (array)$parent->reference;
+
     if (is_array($parent->reference) && array_key_exists($this->name, $parent->reference)) {
       parent::__construct($parent->reference[$this->name], $parent);
     } else {
@@ -44,6 +46,7 @@ class ObjectMember extends Address {
   public function remove() {
     if ($this->exists) {
       unset($this->parent->reference[$this->name]);
+      empty($this->parent->reference) && $this->parent->reference= (object)[];
       return Applied::$CLEANLY;
     } else {
       return new PathDoesNotExist($this->path());
@@ -58,7 +61,9 @@ class ObjectMember extends Address {
    */
   public function add($value) {
     if ($this->parent->exists) {
-      if (0 === key($this->parent->reference)) {
+      if (is_object($this->parent->reference)) {
+        $this->parent->reference= [];
+      } else if (0 === key($this->parent->reference)) {
         return new TypeConflict('Object operation on array target');
       }
 
